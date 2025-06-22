@@ -240,20 +240,23 @@ def edit_profile():
 @auth.route('/verify-email/<token>', methods=['GET', 'POST'])
 def verify_email(token):
     """Verify email address"""
-    if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+
+    if not current_user.is_authenticated:
+        flash('You must be logged in to verify your email.', 'warning')
+        return redirect(url_for('auth.login'))
+
+    print(f"Verifying email with token: {token}")
 
     try:
         # Verify the token and get the user email
-        email = User.verify_email_token(token)
+        email = current_user.verify_email_token(token)
+
         if not email:
             flash('Invalid or expired verification link.', 'error')
             return redirect(url_for('auth.login'))
 
-        # Activate the user account
-        user = User.query.filter_by(email=email).first()
-        if user:
-            user.account_status = 'active'
+        if current_user:
+            current_user.account_status = 'active'
             db.session.commit()
             flash('Your email has been verified. You can now log in.', 'success')
         else:

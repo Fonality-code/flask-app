@@ -237,6 +237,8 @@ class User(UserMixin, db.Model):
         token = secrets.token_urlsafe(32)
         self.email_verification_token = token
         self.email_verification_token_expires = datetime.now() + timedelta(hours=24)
+        
+        db.session.commit()  # Save token to database
         return token
 
     def verify_email_token(self, token: str) -> bool:
@@ -251,7 +253,7 @@ class User(UserMixin, db.Model):
             self.email_verified = True
             self.email_verification_token = None
             self.email_verification_token_expires = None
-            return True
+            return self.email
 
         return False
 
