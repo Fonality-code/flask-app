@@ -12,10 +12,12 @@ def create_app():
 
 
     # Initialize extensions
-    from app.extensions import db, babel, get_locale, login_manager
+    from app.extensions import db, babel, get_locale, login_manager, mail, migrate
     db.init_app(app)
     babel.init_app(app, locale_selector=get_locale) # type: ignore
     login_manager.init_app(app)
+    mail.init_app(app)
+    migrate.init_app(app, db)
 
     # User loader for Flask-Login
     @login_manager.user_loader

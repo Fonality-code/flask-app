@@ -4,6 +4,31 @@
 
 {% block page_content %}
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+    <!-- Email Verification Banner -->
+    {% if not current_user.email_verified %}
+    <div class="mb-6 bg-gradient-to-r from-warning-500 to-orange-500 rounded-lg p-4 shadow-lg">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center text-white">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-triangle text-2xl mr-3"></i>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg">Email Verification Required</h3>
+                    <p class="text-warning-100 text-sm">Please verify your email address to access all features and
+                        ensure account security.</p>
+                </div>
+            </div>
+            <div class="flex-shrink-0">
+                <a href="{{ url_for('auth.send_verification_email') }}"
+                    class="inline-flex items-center px-4 py-2 bg-white text-warning-600 font-medium rounded-lg hover:bg-warning-50 transition-all duration-200 shadow-sm">
+                    <i class="fas fa-envelope mr-2"></i>
+                    Send Verification Email
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Hero Section with Colorful Gradient Background -->
     <div class="mb-6 md:mb-8">
         <div
@@ -295,6 +320,14 @@
                                 <i class="fas fa-lock mr-2"></i> Security
                             </a>
                         </li>
+                        {% if not user.email_verified %}
+                        <li>
+                            <a href="{{ url_for('auth.send_verification_email') }}"
+                                class="flex items-center px-3 py-2 rounded-md bg-danger-50 hover:bg-danger-100 text-danger-700 font-medium transition-colors">
+                                <i class="fas fa-envelope-open mr-2"></i> Verify Email
+                            </a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

@@ -1,7 +1,8 @@
 """
 User model
 """
-from datetime import datetime
+from datetime import datetime, timedelta
+import secrets
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.extensions import db
@@ -34,6 +35,10 @@ class User(UserMixin, db.Model):
     account_type = db.Column(db.String(20), nullable=False, default='customer')  # customer, business, both
     account_status = db.Column(db.String(20), nullable=False, default='active')  # active, inactive, banned
     email_verified = db.Column(db.Boolean, nullable=False, default=False)
+
+    # Email verification
+    email_verification_token = db.Column(db.String(255), nullable=True)
+    email_verification_token_expires = db.Column(db.DateTime, nullable=True)
 
     # Business information (optional)
     business_name = db.Column(db.String(100), nullable=True)
@@ -225,3 +230,33 @@ class User(UserMixin, db.Model):
         # Clear URLs
         self.profile_image_url = None
         self.profile_image_thumbnail_url = None
+
+    # Email Verification Methods
+    def generate_verification_token(self) -> str:
+        """Generate email verification token"""
+        token = secrets.token_urlsafe(32)
+        self.email_verification_token = token
+        self.email_verification_token_expires = datetime.now() + timedelta(hours=24)
+        return token
+
+    def verify_email_token(self, token: str) -> bool:
+        """Verify email verification token"""
+        if not self.email_verification_token or not self.email_verification_token_expires:
+            return False
+
+        if datetime.now() > self.email_verification_token_expires:
+            return False
+
+        if self.email_verification_token == token:
+            self.email_verified = True
+            self.email_verification_token = None
+            self.email_verification_token_expires = None
+            return True
+
+        return False
+
+    def is_verification_token_expired(self) -> bool:
+        """Check if verification token is expired"""
+        if not self.email_verification_token_expires:
+            return True
+        return datetime.now() > self.email_verification_token_expires
