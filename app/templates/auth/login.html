@@ -1,77 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <div class="container">
-        <h1>Login</h1>
-        
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            
-            <div class="form-group">
-                {{ form.email.label }}
-                {{ form.email(class="form-control") }}
-                {% if form.email.errors %}
-                    <div class="error">
-                        {% for error in form.email.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-            
-            <div class="form-group">
-                {{ form.password.label }}
-                {{ form.password(class="form-control") }}
-                {% if form.password.errors %}
-                    <div class="error">
-                        {% for error in form.password.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-            
-            <div class="form-group">
-                {{ form.remember_me() }}
-                {{ form.remember_me.label }}
-            </div>
-            
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-        
-        <div class="links">
-            <p><a href="{{ url_for('auth.register') }}">Don't have an account? Register here</a></p>
-            <p><a href="{{ url_for('main.index') }}">Back to Home</a></p>
+{% extends "base.html" %}
+
+{% block title %}Login - Web App{% endblock %}
+
+{% block content %}
+<div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="text-center">
+            <i class="fas fa-user-circle text-6xl text-primary-500 mb-4"></i>
+            <h2 class="text-3xl font-bold text-gray-900">Sign in to your account</h2>
+            <p class="mt-2 text-sm text-gray-600">
+                Don't have an account?
+                <a href="{{ url_for('auth.register') }}" class="text-primary-600 hover:text-primary-500 font-medium">
+                    Sign up here
+                </a>
+            </p>
         </div>
     </div>
-    
-    <style>
-        .container { max-width: 400px; margin: 50px auto; padding: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .form-control { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; }
-        .btn { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        .btn:hover { background-color: #0056b3; }
-        .alert { padding: 10px; margin-bottom: 15px; border-radius: 4px; }
-        .alert-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .alert-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
-        .error { color: #dc3545; font-size: 0.875em; }
-        .links { margin-top: 20px; text-align: center; }
-        .links a { color: #007bff; text-decoration: none; }
-        .links a:hover { text-decoration: underline; }
-    </style>
-</body>
-</html>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="mb-6">
+                {% for category, message in messages %}
+                <div
+                    class="alert-{{ category }} p-4 rounded-md mb-3 {% if category == 'error' %}bg-red-50 text-red-800 border border-red-200{% elif category == 'success' %}bg-green-50 text-green-800 border border-green-200{% elif category == 'info' %}bg-blue-50 text-blue-800 border border-blue-200{% else %}bg-yellow-50 text-yellow-800 border border-yellow-200{% endif %}">
+                    <div class="flex">
+                        <i
+                            class="fas {% if category == 'error' %}fa-exclamation-circle{% elif category == 'success' %}fa-check-circle{% elif category == 'info' %}fa-info-circle{% else %}fa-exclamation-triangle{% endif %} mt-0.5 mr-2"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST" class="space-y-6">
+                {{ form.hidden_tag() }}
+
+                <div>
+                    {{ form.email.label(class="block text-sm font-medium text-gray-700 mb-1") }}
+                    {{ form.email(class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm
+                    placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500",
+                    placeholder="Enter your email") }}
+                    {% if form.email.errors %}
+                    <div class="mt-1">
+                        {% for error in form.email.errors %}
+                        <p class="text-sm text-red-600">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    {{ form.password.label(class="block text-sm font-medium text-gray-700 mb-1") }}
+                    {{ form.password(class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm
+                    placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500",
+                    placeholder="Enter your password") }}
+                    {% if form.password.errors %}
+                    <div class="mt-1">
+                        {% for error in form.password.errors %}
+                        <p class="text-sm text-red-600">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        {{ form.remember_me(class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300
+                        rounded") }}
+                        {{ form.remember_me.label(class="ml-2 block text-sm text-gray-700") }}
+                    </div>
+                    <div class="text-sm">
+                        <a href="#" class="text-primary-600 hover:text-primary-500 font-medium">
+                            Forgot your password?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Sign in
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6">
+                <div class="text-center">
+                    <a href="{{ url_for('main.index') }}" class="text-sm text-gray-600 hover:text-gray-500">
+                        <i class="fas fa-arrow-left mr-1"></i>
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

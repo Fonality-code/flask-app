@@ -81,6 +81,21 @@ def register():
             website_url=form.website_url.data
         )
         user.set_password(form.password.data)
+        
+        # Handle profile image upload
+        if form.profile_image.data:
+            try:
+                image_url = upload_service.upload_file(
+                    form.profile_image.data, 
+                    folder='profiles',
+                    create_thumbnail=True
+                )
+                if image_url:
+                    thumbnail_url = upload_service.get_thumbnail_url(image_url)
+                    user.set_profile_image(image_url, thumbnail_url)
+            except Exception as e:
+                current_app.logger.error(f"Profile image upload error: {e}")
+                # Continue with registration even if image upload fails
 
         try:
             db.session.add(user)
@@ -128,6 +143,76 @@ def change_password():
         return redirect(url_for('auth.profile'))
 
     return render_template('auth/change_password.html', form=form)
+
+
+@auth.route('/profile/edit', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    """Edit user profile page"""
+    form = ProfileUpdateForm()
+    
+    if form.validate_on_submit():
+        # Update user data
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        current_user.phone_number = form.phone_number.data
+        current_user.date_of_birth = form.date_of_birth.data
+        current_user.country = form.country.data
+        current_user.city = form.city.data
+        current_user.address = form.address.data
+        current_user.preferred_language = form.preferred_language.data
+        current_user.business_name = form.business_name.data
+        current_user.business_type = form.business_type.data
+        current_user.business_description = form.business_description.data
+        current_user.website_url = form.website_url.data
+        
+        # Handle profile image
+        if form.remove_profile_image.data:
+            current_user.delete_profile_image()
+        elif form.profile_image.data:
+            try:
+                # Delete old image if exists
+                if current_user.profile_image_url:
+                    current_user.delete_profile_image()
+                
+                # Upload new image
+                image_url = upload_service.upload_file(
+                    form.profile_image.data,
+                    folder='profiles',
+                    create_thumbnail=True
+                )
+                if image_url:
+                    thumbnail_url = upload_service.get_thumbnail_url(image_url)
+                    current_user.set_profile_image(image_url, thumbnail_url)
+            except Exception as e:
+                current_app.logger.error(f"Profile image upload error: {e}")
+                flash('Error uploading profile image. Profile updated without image.', 'warning')
+        
+        try:
+            db.session.commit()
+            flash('Profile updated successfully!', 'success')
+            return redirect(url_for('auth.profile'))
+        except Exception as e:
+            db.session.rollback()
+            current_app.logger.error(f"Profile update error: {e}")
+            flash('An error occurred while updating your profile.', 'error')
+    
+    # Pre-populate form with current user data
+    elif request.method == 'GET':
+        form.first_name.data = current_user.first_name
+        form.last_name.data = current_user.last_name
+        form.phone_number.data = current_user.phone_number
+        form.date_of_birth.data = current_user.date_of_birth
+        form.country.data = current_user.country
+        form.city.data = current_user.city
+        form.address.data = current_user.address
+        form.preferred_language.data = current_user.preferred_language
+        form.business_name.data = current_user.business_name
+        form.business_type.data = current_user.business_type
+        form.business_description.data = current_user.business_description
+        form.website_url.data = current_user.website_url
+    
+    return render_template('auth/edit_profile.html', form=form)
 
 
 @auth.route('/admin')

@@ -2,6 +2,7 @@
 Authentication forms
 """
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SelectField, BooleanField, TextAreaField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Optional
 from wtforms.widgets import TextArea
@@ -22,7 +23,13 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     phone_number = StringField('Phone Number', validators=[Optional(), Length(max=20)])
     date_of_birth = DateField('Date of Birth', validators=[Optional()])
-    
+
+    # Profile image
+    profile_image = FileField('Profile Image', validators=[
+        Optional(),
+        FileAllowed(['jpg', 'jpeg', 'png', 'gif', 'webp'], 'Images only!')
+    ])
+
     # Location
     country = SelectField('Country', validators=[DataRequired()], choices=[
         ('US', 'United States'),
@@ -48,7 +55,7 @@ class RegistrationForm(FlaskForm):
     ])
     city = StringField('City', validators=[DataRequired(), Length(min=2, max=100)])
     address = StringField('Address', validators=[Optional(), Length(max=200)])
-    
+
     # Account settings
     preferred_language = SelectField('Preferred Language', validators=[DataRequired()], choices=[
         ('en', 'English'),
@@ -66,7 +73,7 @@ class RegistrationForm(FlaskForm):
         ('business', 'Business'),
         ('both', 'Customer & Business'),
     ])
-    
+
     # Business information (optional)
     business_name = StringField('Business Name', validators=[Optional(), Length(max=100)])
     business_type = SelectField('Business Type', validators=[Optional()], choices=[
@@ -84,7 +91,7 @@ class RegistrationForm(FlaskForm):
     ])
     business_description = TextAreaField('Business Description', validators=[Optional()], widget=TextArea())
     website_url = StringField('Website URL', validators=[Optional(), Length(max=200)])
-    
+
     # Password
     password = PasswordField('Password', validators=[
         DataRequired(),
@@ -124,3 +131,76 @@ class ResetPasswordForm(FlaskForm):
         DataRequired(),
         EqualTo('password', message='Passwords must match')
     ])
+
+
+class ProfileUpdateForm(FlaskForm):
+    """Profile update form"""
+    # Personal information
+    first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=50)])
+    last_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=50)])
+    phone_number = StringField('Phone Number', validators=[Optional(), Length(max=20)])
+    date_of_birth = DateField('Date of Birth', validators=[Optional()])
+
+    # Profile image
+    profile_image = FileField('Profile Image', validators=[
+        Optional(),
+        FileAllowed(['jpg', 'jpeg', 'png', 'gif', 'webp'], 'Images only!')
+    ])
+    remove_profile_image = BooleanField('Remove Current Profile Image')
+
+    # Location
+    country = SelectField('Country', validators=[DataRequired()], choices=[
+        ('US', 'United States'),
+        ('CA', 'Canada'),
+        ('GB', 'United Kingdom'),
+        ('FR', 'France'),
+        ('DE', 'Germany'),
+        ('ES', 'Spain'),
+        ('IT', 'Italy'),
+        ('JP', 'Japan'),
+        ('AU', 'Australia'),
+        ('BR', 'Brazil'),
+        ('MX', 'Mexico'),
+        ('IN', 'India'),
+        ('CN', 'China'),
+        ('KR', 'South Korea'),
+        ('SG', 'Singapore'),
+        ('NL', 'Netherlands'),
+        ('SE', 'Sweden'),
+        ('NO', 'Norway'),
+        ('DK', 'Denmark'),
+        ('FI', 'Finland'),
+    ])
+    city = StringField('City', validators=[DataRequired(), Length(min=2, max=100)])
+    address = StringField('Address', validators=[Optional(), Length(max=200)])
+
+    # Account settings
+    preferred_language = SelectField('Preferred Language', validators=[DataRequired()], choices=[
+        ('en', 'English'),
+        ('fr', 'Français'),
+        ('es', 'Español'),
+        ('de', 'Deutsch'),
+        ('it', 'Italiano'),
+        ('pt', 'Português'),
+        ('ja', '日本語'),
+        ('ko', '한국어'),
+        ('zh', '中文'),
+    ])
+
+    # Business information (optional)
+    business_name = StringField('Business Name', validators=[Optional(), Length(max=100)])
+    business_type = SelectField('Business Type', validators=[Optional()], choices=[
+        ('', 'Select Business Type'),
+        ('retail', 'Retail'),
+        ('restaurant', 'Restaurant'),
+        ('service', 'Service'),
+        ('manufacturing', 'Manufacturing'),
+        ('technology', 'Technology'),
+        ('healthcare', 'Healthcare'),
+        ('education', 'Education'),
+        ('finance', 'Finance'),
+        ('real_estate', 'Real Estate'),
+        ('other', 'Other'),
+    ])
+    business_description = TextAreaField('Business Description', validators=[Optional()], widget=TextArea())
+    website_url = StringField('Website URL', validators=[Optional(), Length(max=200)])

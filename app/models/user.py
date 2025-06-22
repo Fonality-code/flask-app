@@ -41,6 +41,10 @@ class User(UserMixin, db.Model):
     business_description = db.Column(db.Text, nullable=True)
     website_url = db.Column(db.String(200), nullable=True)
 
+    # Profile image
+    profile_image_url = db.Column(db.String(500), nullable=True)
+    profile_image_thumbnail_url = db.Column(db.String(500), nullable=True)
+
     # Timestamps
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
@@ -48,7 +52,7 @@ class User(UserMixin, db.Model):
 
     # RBAC relationships
     from app.models.rbac import user_roles
-    roles = db.relationship('Role', 
+    roles = db.relationship('Role',
                           secondary=user_roles,
                           backref=db.backref('users', lazy='dynamic'),
                           lazy='dynamic')
@@ -121,7 +125,7 @@ class User(UserMixin, db.Model):
         for role in self.roles:
             if role.has_permission(permission_name):
                 return True
-        
+
         # Check direct access control permissions
         from app.models.rbac import AccessControl, Permission
         query = AccessControl.query.join(Permission).filter(
@@ -129,10 +133,10 @@ class User(UserMixin, db.Model):
             Permission.name == permission_name,
             AccessControl.is_granted == True
         )
-        
+
         if resource_type:
             query = query.filter(AccessControl.resource_type == resource_type)
-        
+
         if resource_id:
             query = query.filter(
                 db.or_(
@@ -140,7 +144,7 @@ class User(UserMixin, db.Model):
                     AccessControl.resource_id.is_(None)
                 )
             )
-        
+
         # Check for non-expired permissions
         active_permissions = query.filter(
             db.or_(
@@ -148,18 +152,18 @@ class User(UserMixin, db.Model):
                 AccessControl.expires_at > datetime.now()
             )
         ).all()
-        
+
         return len(active_permissions) > 0
 
     def can_access_user(self, target_user_id: int, permission_name: str) -> bool:
         """Check if user can access another user based on relationships"""
         if self.id == target_user_id:
             return True  # Users can always access themselves
-        
+
         # Check if user has direct permission
         if self.has_permission(permission_name, 'user', target_user_id):
             return True
-        
+
         # Check relationship-based access
         from app.models.rbac import UserRelationship
         relationships = UserRelationship.query.filter(
@@ -167,21 +171,57 @@ class User(UserMixin, db.Model):
             UserRelationship.child_user_id == target_user_id,
             UserRelationship.is_active == True
         ).all()
-        
+
         return len(relationships) > 0
 
     def get_accessible_users(self, permission_name: str = 'read') -> List[int]:
         """Get list of user IDs this user can access"""
         accessible_ids = [self.id]  # Always include self
-        
+
         # Add users based on relationships
         from app.models.rbac import UserRelationship
         relationships = UserRelationship.query.filter(
             UserRelationship.parent_user_id == self.id,
             UserRelationship.is_active == True
         ).all()
-        
+
         for rel in relationships:
             accessible_ids.append(rel.child_user_id)
-        
+
         return accessible_ids
+
+    # Profile Image Methods
+    def get_profile_image(self, use_thumbnail: bool = False) -> str:
+        """Get profile image URL, return default if none set"""
+        if use_thumbnail and self.profile_image_thumbnail_url:
+            return self.profile_image_thumbnail_url
+        elif self.profile_image_url:
+            return self.profile_image_url
+        else:
+            # Return default avatar based on initials
+            return self.get_default_avatar_url()
+
+    def get_default_avatar_url(self) -> str:
+        """Generate default avatar URL based on user initials"""
+        initials = f"{self.first_name[0]}{self.last_name[0]}" if self.first_name and self.last_name else "?"
+        # Using a simple avatar service or can be replaced with local generation
+        return f"https://ui-avatars.com/api/?name={initials}&background=3b82f6&color=ffffff&size=200"
+
+    def set_profile_image(self, image_url: str, thumbnail_url: str = None):
+        """Set profile image URLs"""
+        self.profile_image_url = image_url
+        self.profile_image_thumbnail_url = thumbnail_url
+
+    def delete_profile_image(self):
+        """Clear profile image URLs"""
+        from app.utils.upload_service import upload_service
+
+        # Delete files from storage
+        if self.profile_image_url:
+            upload_service.delete_file(self.profile_image_url)
+        if self.profile_image_thumbnail_url:
+            upload_service.delete_file(self.profile_image_thumbnail_url)
+
+        # Clear URLs
+        self.profile_image_url = None
+        self.profile_image_thumbnail_url = None

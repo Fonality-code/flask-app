@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
 </head>
+
 <body>
     <div class="container">
         <h1>User Profile</h1>
-        
+
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
-        
+
         <div class="profile-info">
             <div class="section">
                 <h2>Personal Information</h2>
@@ -29,7 +31,7 @@
                         <label>Email:</label>
                         <span>{{ user.email }}</span>
                         {% if not user.email_verified %}
-                            <span class="badge badge-warning">Not Verified</span>
+                        <span class="badge badge-warning">Not Verified</span>
                         {% endif %}
                     </div>
                     {% if user.phone_number %}
@@ -46,7 +48,7 @@
                     {% endif %}
                 </div>
             </div>
-            
+
             <div class="section">
                 <h2>Location</h2>
                 <div class="info-grid">
@@ -66,7 +68,7 @@
                     {% endif %}
                 </div>
             </div>
-            
+
             <div class="section">
                 <h2>Account Settings</h2>
                 <div class="info-grid">
@@ -96,7 +98,7 @@
                     {% endif %}
                 </div>
             </div>
-            
+
             {% if user.is_business_user %}
             <div class="section">
                 <h2>Business Information</h2>
@@ -128,57 +130,183 @@
                 </div>
             </div>
             {% endif %}
-            
+
             <div class="section">
                 <h2>Roles & Permissions</h2>
                 <div class="roles-list">
                     {% for role in user.roles %}
-                        <span class="badge badge-secondary">{{ role.name }}</span>
+                    <span class="badge badge-secondary">{{ role.name }}</span>
                     {% else %}
-                        <span class="text-muted">No roles assigned</span>
+                    <span class="text-muted">No roles assigned</span>
                     {% endfor %}
                 </div>
             </div>
         </div>
-        
+
         <div class="actions">
             <a href="{{ url_for('auth.change_password') }}" class="btn btn-secondary">Change Password</a>
             {% if current_user.has_role('admin') %}
-                <a href="{{ url_for('auth.admin') }}" class="btn btn-info">Admin Dashboard</a>
+            <a href="{{ url_for('auth.admin') }}" class="btn btn-info">Admin Dashboard</a>
             {% endif %}
             <a href="{{ url_for('main.index') }}" class="btn btn-primary">Back to Home</a>
         </div>
     </div>
-    
+
     <style>
-        .container { max-width: 800px; margin: 20px auto; padding: 20px; }
-        .section { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 4px; }
-        .section h2 { margin-top: 0; color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .info-item { display: flex; flex-direction: column; }
-        .info-item.full-width { grid-column: 1 / -1; }
-        .info-item label { font-weight: bold; color: #555; margin-bottom: 5px; }
-        .info-item span { color: #333; }
-        .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.875em; font-weight: bold; }
-        .badge-info { background-color: #17a2b8; color: white; }
-        .badge-success { background-color: #28a745; color: white; }
-        .badge-danger { background-color: #dc3545; color: white; }
-        .badge-warning { background-color: #ffc107; color: #212529; }
-        .badge-secondary { background-color: #6c757d; color: white; margin-right: 5px; }
-        .text-muted { color: #6c757d; }
-        .roles-list { margin-top: 10px; }
-        .actions { margin-top: 30px; display: flex; gap: 10px; justify-content: center; }
-        .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
-        .btn-primary { background-color: #007bff; color: white; }
-        .btn-secondary { background-color: #6c757d; color: white; }
-        .btn-info { background-color: #17a2b8; color: white; }
-        .btn:hover { opacity: 0.9; }
-        .alert { padding: 10px; margin-bottom: 15px; border-radius: 4px; }
-        .alert-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .alert-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
-        a { color: #007bff; }
-        a:hover { text-decoration: underline; }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-item.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .info-item label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .info-item span {
+            color: #333;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.875em;
+            font-weight: bold;
+        }
+
+        .badge-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .badge-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .badge-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .badge-secondary {
+            background-color: #6c757d;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .text-muted {
+            color: #6c757d;
+        }
+
+        .roles-list {
+            margin-top: 10px;
+        }
+
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        a {
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </body>
+
 </html>

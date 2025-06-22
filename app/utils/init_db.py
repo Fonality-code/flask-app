@@ -135,11 +135,11 @@ def create_admin_user(email, password, first_name, last_name):
         email_verified=True
     )
     admin_user.set_password(password)
-    
+
     # Add user to session and commit first
     db.session.add(admin_user)
     db.session.commit()
-    
+
     # Now add admin role using direct relationship
     admin_role = Role.query.filter_by(name='admin').first()
     if admin_role:
@@ -152,17 +152,17 @@ def create_admin_user(email, password, first_name, last_name):
 
 def assign_default_roles():
     """Assign default roles to existing users based on account type"""
-    
+
     users = User.query.all()
     user_role = Role.query.filter_by(name='user').first()
     customer_role = Role.query.filter_by(name='customer').first()
     business_role = Role.query.filter_by(name='business').first()
-    
+
     for user in users:
         # Skip if user already has roles
         if len(list(user.roles)) > 0:
             continue
-        
+
         # Assign roles based on account type
         if user.account_type == 'customer':
             if customer_role:
@@ -175,11 +175,11 @@ def assign_default_roles():
                 user.roles.append(customer_role)
             if business_role:
                 user.roles.append(business_role)
-        
+
         # Always add the basic user role
         if user_role:
             user.roles.append(user_role)
-    
+
     try:
         db.session.commit()
         print("Default roles assigned to existing users")

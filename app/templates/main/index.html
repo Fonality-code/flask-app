@@ -10,77 +10,77 @@
     </div>
     <div class="nav-links">
         {% if current_user.is_authenticated %}
-            <span>Welcome, {{ current_user.first_name }}!</span>
-            <a href="{{ url_for('auth.profile') }}">Profile</a>
-            {% if current_user.has_role('admin') %}
-                <a href="{{ url_for('auth.admin') }}">Admin</a>
-            {% endif %}
-            <a href="{{ url_for('auth.logout') }}">Logout</a>
+        <span>Welcome, {{ current_user.first_name }}!</span>
+        <a href="{{ url_for('auth.profile') }}">Profile</a>
+        {% if current_user.has_role('admin') %}
+        <a href="{{ url_for('auth.admin') }}">Admin</a>
+        {% endif %}
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
         {% else %}
-            <a href="{{ url_for('auth.login') }}">Login</a>
-            <a href="{{ url_for('auth.register') }}">Register</a>
+        <a href="{{ url_for('auth.login') }}">Login</a>
+        <a href="{{ url_for('auth.register') }}">Register</a>
         {% endif %}
     </div>
 </nav>
 
 <div class="container">
     <h1>{{ gettext("Hello World") }}</h1>
-    
+
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
     {% endwith %}
-    
+
     <div class="content">
         {% if current_user.is_authenticated %}
-            <h2>Dashboard</h2>
-            <p>Welcome to your dashboard, {{ current_user.full_name }}!</p>
-            
-            <div class="user-info">
-                <h3>Your Account</h3>
-                <p><strong>Account Type:</strong> {{ current_user.account_type.title() }}</p>
-                <p><strong>Member Since:</strong> {{ current_user.created_at.strftime('%B %d, %Y') }}</p>
-                {% if current_user.last_login %}
-                    <p><strong>Last Login:</strong> {{ current_user.last_login.strftime('%B %d, %Y at %I:%M %p') }}</p>
-                {% endif %}
-            </div>
-            
-            <div class="quick-actions">
-                <h3>Quick Actions</h3>
-                <a href="{{ url_for('auth.profile') }}" class="btn btn-primary">View Profile</a>
-                <a href="{{ url_for('auth.change_password') }}" class="btn btn-secondary">Change Password</a>
-                {% if current_user.has_role('admin') %}
-                    <a href="{{ url_for('auth.admin') }}" class="btn btn-info">Admin Dashboard</a>
-                {% endif %}
-            </div>
+        <h2>Dashboard</h2>
+        <p>Welcome to your dashboard, {{ current_user.full_name }}!</p>
+
+        <div class="user-info">
+            <h3>Your Account</h3>
+            <p><strong>Account Type:</strong> {{ current_user.account_type.title() }}</p>
+            <p><strong>Member Since:</strong> {{ current_user.created_at.strftime('%B %d, %Y') }}</p>
+            {% if current_user.last_login %}
+            <p><strong>Last Login:</strong> {{ current_user.last_login.strftime('%B %d, %Y at %I:%M %p') }}</p>
+            {% endif %}
+        </div>
+
+        <div class="quick-actions">
+            <h3>Quick Actions</h3>
+            <a href="{{ url_for('auth.profile') }}" class="btn btn-primary">View Profile</a>
+            <a href="{{ url_for('auth.change_password') }}" class="btn btn-secondary">Change Password</a>
+            {% if current_user.has_role('admin') %}
+            <a href="{{ url_for('auth.admin') }}" class="btn btn-info">Admin Dashboard</a>
+            {% endif %}
+        </div>
         {% else %}
-            <h2>Welcome to Our Web Application</h2>
-            <p>This is a template application with user authentication and role-based access control.</p>
-            
-            <div class="features">
-                <h3>Features</h3>
-                <ul>
-                    <li>User Registration and Login</li>
-                    <li>Role-Based Access Control (RBAC)</li>
-                    <li>Relationship-Based Access Control</li>
-                    <li>User Profile Management</li>
-                    <li>Admin Dashboard</li>
-                    <li>Multi-language Support</li>
-                </ul>
-            </div>
-            
-            <div class="getting-started">
-                <h3>Get Started</h3>
-                <p>Create an account to access all features:</p>
-                <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register Now</a>
-                <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Login</a>
-            </div>
+        <h2>Welcome to Our Web Application</h2>
+        <p>This is a template application with user authentication and role-based access control.</p>
+
+        <div class="features">
+            <h3>Features</h3>
+            <ul>
+                <li>User Registration and Login</li>
+                <li>Role-Based Access Control (RBAC)</li>
+                <li>Relationship-Based Access Control</li>
+                <li>User Profile Management</li>
+                <li>Admin Dashboard</li>
+                <li>Multi-language Support</li>
+            </ul>
+        </div>
+
+        <div class="getting-started">
+            <h3>Get Started</h3>
+            <p>Create an account to access all features:</p>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register Now</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Login</a>
+        </div>
         {% endif %}
     </div>
-    
+
     <div class="language-selector">
         <h3>{{ _('Language') }}</h3>
         <a href="?lang=en">English</a>
@@ -90,71 +90,143 @@
 </div>
 
 <style>
-    .navbar { 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        padding: 1rem 2rem; 
-        background-color: #f8f9fa; 
-        border-bottom: 1px solid #dee2e6; 
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
         margin-bottom: 2rem;
     }
-    .nav-brand h2 { margin: 0; color: #007bff; }
-    .nav-links { display: flex; gap: 1rem; align-items: center; }
-    .nav-links a { 
-        color: #007bff; 
-        text-decoration: none; 
-        padding: 0.5rem 1rem; 
-        border-radius: 4px; 
+
+    .nav-brand h2 {
+        margin: 0;
+        color: #007bff;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .nav-links a {
+        color: #007bff;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
         transition: background-color 0.2s;
     }
-    .nav-links a:hover { background-color: #e9ecef; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-    .content { margin-bottom: 2rem; }
-    .user-info, .features, .getting-started, .quick-actions { 
-        margin-bottom: 2rem; 
-        padding: 1.5rem; 
-        border: 1px solid #dee2e6; 
-        border-radius: 8px; 
+
+    .nav-links a:hover {
+        background-color: #e9ecef;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .content {
+        margin-bottom: 2rem;
+    }
+
+    .user-info,
+    .features,
+    .getting-started,
+    .quick-actions {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
         background-color: #f8f9fa;
     }
-    .user-info h3, .features h3, .getting-started h3, .quick-actions h3 { 
-        margin-top: 0; 
-        color: #495057; 
+
+    .user-info h3,
+    .features h3,
+    .getting-started h3,
+    .quick-actions h3 {
+        margin-top: 0;
+        color: #495057;
     }
-    .btn { 
-        display: inline-block; 
-        padding: 0.75rem 1.5rem; 
-        margin-right: 0.5rem; 
-        margin-bottom: 0.5rem; 
-        border: none; 
-        border-radius: 4px; 
-        cursor: pointer; 
-        text-decoration: none; 
+
+    .btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
         font-weight: 500;
     }
-    .btn-primary { background-color: #007bff; color: white; }
-    .btn-secondary { background-color: #6c757d; color: white; }
-    .btn-info { background-color: #17a2b8; color: white; }
-    .btn:hover { opacity: 0.9; }
-    .alert { 
-        padding: 0.75rem 1.25rem; 
-        margin-bottom: 1rem; 
-        border: 1px solid transparent; 
-        border-radius: 0.25rem; 
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
     }
-    .alert-success { background-color: #d4edda; color: #155724; border-color: #c3e6cb; }
-    .alert-error { background-color: #f8d7da; color: #721c24; border-color: #f5c6cb; }
-    .alert-info { background-color: #d1ecf1; color: #0c5460; border-color: #bee5eb; }
-    .language-selector { 
-        margin-top: 3rem; 
-        padding: 1rem; 
-        border-top: 1px solid #dee2e6; 
-        text-align: center; 
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
     }
-    .language-selector a { color: #007bff; margin: 0 0.5rem; }
-    ul { padding-left: 1.5rem; }
-    li { margin-bottom: 0.5rem; }
+
+    .btn-info {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    .alert {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border-color: #c3e6cb;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-color: #f5c6cb;
+    }
+
+    .alert-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border-color: #bee5eb;
+    }
+
+    .language-selector {
+        margin-top: 3rem;
+        padding: 1rem;
+        border-top: 1px solid #dee2e6;
+        text-align: center;
+    }
+
+    .language-selector a {
+        color: #007bff;
+        margin: 0 0.5rem;
+    }
+
+    ul {
+        padding-left: 1.5rem;
+    }
+
+    li {
+        margin-bottom: 0.5rem;
+    }
 </style>
 
 {% endblock %}
