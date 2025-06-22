@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Web App') }}{% endblock %}
+
+{% block content %}
+
+{{ gettext("Hello World")}}
+
+<div>
+    <a href="?lang=en">English</a>
+    <br>
+    <a href="?lang=fr">French</a>
+</div>
+
+{% endblock %}
