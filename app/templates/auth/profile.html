@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="flex-shrink-0">
-                <a href="{{ url_for('auth.send_verification_email') }}"
+                <a href="{{ url_for('auth.resend_verification') }}"
                     class="inline-flex items-center px-4 py-2 bg-white text-warning-600 font-medium rounded-lg hover:bg-warning-50 transition-all duration-200 shadow-sm">
                     <i class="fas fa-envelope mr-2"></i>
                     Send Verification Email
@@ -322,7 +322,7 @@
                         </li>
                         {% if not user.email_verified %}
                         <li>
-                            <a href="{{ url_for('auth.send_verification_email') }}"
+                            <a href="{{ url_for('auth.resend_verification') }}"
                                 class="flex items-center px-3 py-2 rounded-md bg-danger-50 hover:bg-danger-100 text-danger-700 font-medium transition-colors">
                                 <i class="fas fa-envelope-open mr-2"></i> Verify Email
                             </a>

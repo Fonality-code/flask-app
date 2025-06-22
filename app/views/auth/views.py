@@ -6,6 +6,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.extensions import db
 from app.models import User
 from app.views.auth.forms import LoginForm, RegistrationForm, ChangePasswordForm, ProfileUpdateForm
+from app.utils.email_service import send_verification_email, send_welcome_email
 from datetime import datetime
 
 try:
@@ -86,7 +87,10 @@ def register():
             db.session.add(user)
             db.session.commit()
 
-            flash('Registration successful! You can now log in.', 'success')
+            # Send verification email
+            send_verification_email(user)
+
+            flash('Registration successful! A verification email has been sent to your email address.', 'success')
             return redirect(url_for('auth.login'))
         except Exception as e:
             db.session.rollback()
@@ -231,3 +235,50 @@ def edit_profile():
         form.website_url.data = current_user.website_url
 
     return render_template('auth/edit_profile.html', form=form)
+
+
+@auth.route('/verify-email/<token>', methods=['GET', 'POST'])
+def verify_email(token):
+    """Verify email address"""
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+
+    try:
+        # Verify the token and get the user email
+        email = User.verify_email_token(token)
+        if not email:
+            flash('Invalid or expired verification link.', 'error')
+            return redirect(url_for('auth.login'))
+
+        # Activate the user account
+        user = User.query.filter_by(email=email).first()
+        if user:
+            user.account_status = 'active'
+            db.session.commit()
+            flash('Your email has been verified. You can now log in.', 'success')
+        else:
+            flash('User not found. Please register again.', 'error')
+    except Exception as e:
+        current_app.logger.error(f"Email verification error: {e}")
+        flash('An error occurred during email verification. Please try again.', 'error')
+
+    return redirect(url_for('auth.login'))
+
+
+@auth.route('/resend-verification')
+def resend_verification():
+    """Resend verification email"""
+    if current_user.is_authenticated:
+        # Resend verification email
+        send_verification_email(current_user)
+        flash('Verification email resent. Please check your inbox.', 'info')
+    else:
+        flash('Please log in to resend the verification email.', 'warning')
+
+    return redirect(url_for('auth.login'))
+
+
+@auth.route('/welcome')
+def welcome():
+    """Welcome page after registration"""
+    return render_template('auth/welcome.html')
