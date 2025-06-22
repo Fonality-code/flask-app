@@ -32,26 +32,8 @@ class RegistrationForm(FlaskForm):
 
     # Location
     country = SelectField('Country', validators=[DataRequired()], choices=[
-        ('US', 'United States'),
-        ('CA', 'Canada'),
-        ('GB', 'United Kingdom'),
-        ('FR', 'France'),
-        ('DE', 'Germany'),
-        ('ES', 'Spain'),
-        ('IT', 'Italy'),
-        ('JP', 'Japan'),
-        ('AU', 'Australia'),
-        ('BR', 'Brazil'),
-        ('MX', 'Mexico'),
-        ('IN', 'India'),
-        ('CN', 'China'),
-        ('KR', 'South Korea'),
-        ('SG', 'Singapore'),
-        ('NL', 'Netherlands'),
-        ('SE', 'Sweden'),
-        ('NO', 'Norway'),
-        ('DK', 'Denmark'),
-        ('FI', 'Finland'),
+        ('CM', 'Cameroon'),
+
     ])
     city = StringField('City', validators=[DataRequired(), Length(min=2, max=100)])
     address = StringField('Address', validators=[Optional(), Length(max=200)])
@@ -60,13 +42,6 @@ class RegistrationForm(FlaskForm):
     preferred_language = SelectField('Preferred Language', validators=[DataRequired()], choices=[
         ('en', 'English'),
         ('fr', 'Français'),
-        ('es', 'Español'),
-        ('de', 'Deutsch'),
-        ('it', 'Italiano'),
-        ('pt', 'Português'),
-        ('ja', '日本語'),
-        ('ko', '한국어'),
-        ('zh', '中文'),
     ])
     account_type = SelectField('Account Type', validators=[DataRequired()], choices=[
         ('customer', 'Customer'),
@@ -150,26 +125,8 @@ class ProfileUpdateForm(FlaskForm):
 
     # Location
     country = SelectField('Country', validators=[DataRequired()], choices=[
-        ('US', 'United States'),
-        ('CA', 'Canada'),
-        ('GB', 'United Kingdom'),
-        ('FR', 'France'),
-        ('DE', 'Germany'),
-        ('ES', 'Spain'),
-        ('IT', 'Italy'),
-        ('JP', 'Japan'),
-        ('AU', 'Australia'),
-        ('BR', 'Brazil'),
-        ('MX', 'Mexico'),
-        ('IN', 'India'),
-        ('CN', 'China'),
-        ('KR', 'South Korea'),
-        ('SG', 'Singapore'),
-        ('NL', 'Netherlands'),
-        ('SE', 'Sweden'),
-        ('NO', 'Norway'),
-        ('DK', 'Denmark'),
-        ('FI', 'Finland'),
+        ('CM', 'Cameroon'),
+
     ])
     city = StringField('City', validators=[DataRequired(), Length(min=2, max=100)])
     address = StringField('Address', validators=[Optional(), Length(max=200)])
@@ -178,13 +135,7 @@ class ProfileUpdateForm(FlaskForm):
     preferred_language = SelectField('Preferred Language', validators=[DataRequired()], choices=[
         ('en', 'English'),
         ('fr', 'Français'),
-        ('es', 'Español'),
-        ('de', 'Deutsch'),
-        ('it', 'Italiano'),
-        ('pt', 'Português'),
-        ('ja', '日本語'),
-        ('ko', '한국어'),
-        ('zh', '中文'),
+
     ])
 
     # Business information (optional)

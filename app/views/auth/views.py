@@ -285,3 +285,9 @@ def resend_verification():
 def welcome():
     """Welcome page after registration"""
     return render_template('auth/welcome.html')
+
+
+@auth.route('forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    # TODO
+    return "todo"
