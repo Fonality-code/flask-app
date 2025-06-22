@@ -143,9 +143,13 @@ def user_detail(user_id):
     # Get user's access controls
     access_controls = AccessControl.query.filter_by(user_id=user_id).all()
 
+    # Get all available roles for assignment
+    all_roles = Role.query.all()
+
     return render_template('admin/user_detail.html', user=user, form=form,
                          user_roles=user_roles_list, parent_relationships=parent_relationships,
-                         child_relationships=child_relationships, access_controls=access_controls)
+                         child_relationships=child_relationships, access_controls=access_controls,
+                         all_roles=all_roles)
 
 
 @admin.route('/users/<int:user_id>/edit', methods=['POST'])
