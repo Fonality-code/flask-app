@@ -1,22 +1,49 @@
 <!-- Navigation Items -->
-{% if current_user.is_authenticated %}
+<nav class="bg-white/95 border-r border-secondary-100/60 min-h-screen py-6 px-2">
+    {% if current_user.is_authenticated %}
     <!-- Dashboard -->
     <a href="{{ url_for('main.index') }}"
-       class="group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 {% if request.endpoint == 'main.index' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
-        <div class="flex items-center justify-center w-8 h-8 rounded-xl {% if request.endpoint == 'main.index' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
-            <i class="fas fa-home {% if request.endpoint == 'main.index' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
+        class="group flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 {% if request.endpoint == 'main.index' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
+        <div
+            class="flex items-center justify-center w-8 h-8 rounded-md {% if request.endpoint == 'main.index' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
+            <i
+                class="fas fa-home {% if request.endpoint == 'main.index' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
         </div>
         <span class="ml-3">{{ _('Dashboard') }}</span>
     </a>
 
-    <!-- Profile -->
-    <a href="{{ url_for('auth.profile') }}"
-       class="group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 {% if request.endpoint == 'auth.profile' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
-        <div class="flex items-center justify-center w-8 h-8 rounded-xl {% if request.endpoint == 'auth.profile' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
-            <i class="fas fa-user {% if request.endpoint == 'auth.profile' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
+    <!-- Account Management Section -->
+    <div class="mt-8">
+        <h3 class="px-4 text-xs font-bold text-secondary-400 uppercase tracking-wider mb-4">
+            {{ _('Account Management') }}
+        </h3>
+        <div class="space-y-2">
+            <a href="{{ url_for('auth.profile') }}"
+                class="group flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 {% if request.endpoint == 'auth.profile' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-primary-700 hover:bg-primary-50 hover:text-primary-900{% endif %}">
+                <div
+                    class="flex items-center justify-center w-8 h-8 rounded-md {% if request.endpoint == 'auth.profile' %}bg-white/20{% else %}bg-primary-100 group-hover:bg-primary-200{% endif %} transition-all duration-200">
+                    <i class="fas fa-user text-sm"></i>
+                </div>
+                <span class="ml-3">Profile</span>
+            </a>
+            <a href="{{ url_for('auth.edit_profile') }}"
+                class="group flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 {% if request.endpoint == 'auth.edit_profile' %}bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-medium transform scale-105{% else %}text-accent-700 hover:bg-accent-50 hover:text-accent-900{% endif %}">
+                <div
+                    class="flex items-center justify-center w-8 h-8 rounded-md {% if request.endpoint == 'auth.edit_profile' %}bg-white/20{% else %}bg-accent-100 group-hover:bg-accent-200{% endif %} transition-all duration-200">
+                    <i class="fas fa-edit text-sm"></i>
+                </div>
+                <span class="ml-3">Edit Profile</span>
+            </a>
+            <a href="{{ url_for('auth.change_password') }}"
+                class="group flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 {% if request.endpoint == 'auth.change_password' %}bg-gradient-to-r from-warning-500 to-warning-600 text-white shadow-medium transform scale-105{% else %}text-warning-700 hover:bg-warning-50 hover:text-warning-900{% endif %}">
+                <div
+                    class="flex items-center justify-center w-8 h-8 rounded-md {% if request.endpoint == 'auth.change_password' %}bg-white/20{% else %}bg-warning-100 group-hover:bg-warning-200{% endif %} transition-all duration-200">
+                    <i class="fas fa-lock text-sm"></i>
+                </div>
+                <span class="ml-3">Security</span>
+            </a>
         </div>
-        <span class="ml-3">{{ _('Profile') }}</span>
-    </a>
+    </div>
 
     <!-- Settings Section -->
     <div class="mt-8">
@@ -26,9 +53,11 @@
         <div class="space-y-2">
             <!-- Change Password -->
             <a href="{{ url_for('auth.change_password') }}"
-               class="group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 {% if request.endpoint == 'auth.change_password' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
-                <div class="flex items-center justify-center w-8 h-8 rounded-xl {% if request.endpoint == 'auth.change_password' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
-                    <i class="fas fa-lock {% if request.endpoint == 'auth.change_password' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
+                class="group flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 {% if request.endpoint == 'auth.change_password' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
+                <div
+                    class="flex items-center justify-center w-8 h-8 rounded-md {% if request.endpoint == 'auth.change_password' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
+                    <i
+                        class="fas fa-lock {% if request.endpoint == 'auth.change_password' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
                 </div>
                 <span class="ml-3">{{ _('Change Password') }}</span>
             </a>
@@ -44,9 +73,11 @@
         <div class="space-y-2">
             <!-- Admin Dashboard -->
             <a href="{{ url_for('auth.admin') }}"
-               class="group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 {% if request.endpoint == 'auth.admin' %}bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
-                <div class="flex items-center justify-center w-8 h-8 rounded-xl {% if request.endpoint == 'auth.admin' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
-                    <i class="fas fa-users-cog {% if request.endpoint == 'auth.admin' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
+                class="group flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 {% if request.endpoint == 'auth.admin' %}bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
+                <div
+                    class="flex items-center justify-center w-8 h-8 rounded-md {% if request.endpoint == 'auth.admin' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
+                    <i
+                        class="fas fa-users-cog {% if request.endpoint == 'auth.admin' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
                 </div>
                 <span class="ml-3">{{ _('Admin Dashboard') }}</span>
             </a>
@@ -57,37 +88,45 @@
     <!-- Account Actions -->
     <div class="mt-12 pt-6 border-t border-secondary-200/50">
         <a href="{{ url_for('auth.logout') }}"
-           class="group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl text-danger-600 hover:bg-danger-50 hover:text-danger-700 transition-all duration-200">
-            <div class="flex items-center justify-center w-8 h-8 rounded-xl bg-danger-100 group-hover:bg-danger-200 transition-all duration-200">
+            class="group flex items-center px-4 py-3 text-sm font-semibold rounded-lg text-danger-600 hover:bg-danger-50 hover:text-danger-700 transition-all duration-200">
+            <div
+                class="flex items-center justify-center w-8 h-8 rounded-md bg-danger-100 group-hover:bg-danger-200 transition-all duration-200">
                 <i class="fas fa-sign-out-alt text-danger-500 group-hover:text-danger-700 text-sm"></i>
             </div>
             <span class="ml-3">{{ _('Logout') }}</span>
         </a>
     </div>
 
-{% else %}
+    {% else %}
     <!-- Guest Navigation -->
     <a href="{{ url_for('main.index') }}"
-       class="group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 {% if request.endpoint == 'main.index' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
-        <div class="flex items-center justify-center w-8 h-8 rounded-xl {% if request.endpoint == 'main.index' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
-            <i class="fas fa-home {% if request.endpoint == 'main.index' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
+        class="group flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 {% if request.endpoint == 'main.index' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
+        <div
+            class="flex items-center justify-center w-8 h-8 rounded-md {% if request.endpoint == 'main.index' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
+            <i
+                class="fas fa-home {% if request.endpoint == 'main.index' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
         </div>
         <span class="ml-3">{{ _('Home') }}</span>
     </a>
 
     <a href="{{ url_for('auth.login') }}"
-       class="group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 {% if request.endpoint == 'auth.login' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
-        <div class="flex items-center justify-center w-8 h-8 rounded-xl {% if request.endpoint == 'auth.login' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
-            <i class="fas fa-sign-in-alt {% if request.endpoint == 'auth.login' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
+        class="group flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 {% if request.endpoint == 'auth.login' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
+        <div
+            class="flex items-center justify-center w-8 h-8 rounded-md {% if request.endpoint == 'auth.login' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
+            <i
+                class="fas fa-sign-in-alt {% if request.endpoint == 'auth.login' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
         </div>
         <span class="ml-3">{{ _('Login') }}</span>
     </a>
 
     <a href="{{ url_for('auth.register') }}"
-       class="group flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-200 {% if request.endpoint == 'auth.register' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
-        <div class="flex items-center justify-center w-8 h-8 rounded-xl {% if request.endpoint == 'auth.register' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
-            <i class="fas fa-user-plus {% if request.endpoint == 'auth.register' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
+        class="group flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 {% if request.endpoint == 'auth.register' %}bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-medium transform scale-105{% else %}text-secondary-600 hover:bg-secondary-100 hover:text-secondary-900{% endif %}">
+        <div
+            class="flex items-center justify-center w-8 h-8 rounded-md {% if request.endpoint == 'auth.register' %}bg-white/20{% else %}bg-secondary-100 group-hover:bg-secondary-200{% endif %} transition-all duration-200">
+            <i
+                class="fas fa-user-plus {% if request.endpoint == 'auth.register' %}text-white{% else %}text-secondary-500 group-hover:text-secondary-700{% endif %} text-sm"></i>
         </div>
         <span class="ml-3">{{ _('Register') }}</span>
     </a>
-{% endif %}
+    {% endif %}
+</nav>
