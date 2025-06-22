@@ -8,7 +8,7 @@ services:
     environment:
       - DEBUG=True
       - SECRET_KEY=your-secret-key-change-in-production
-      - DATABASE_URL=sqlite:///instance/site.db
+      - DATABASE_URL=postgresql://webapp:your-password@postgres:7638/webapp_db
       - MAIL_SERVER=sandbox.smtp.mailtrap.io
       - MAIL_PORT=2525
       - MAIL_USE_TLS=True
@@ -18,25 +18,35 @@ services:
       - APPLICATION_NAME=Web App
       - FRONTEND_URL=http://localhost:5000
     volumes:
-      - ./instance:/app/instance
       - ./app/static/uploads:/app/app/static/uploads
-      - ./migrations:/app/migrations
     networks:
       - webapp-network
     restart: unless-stopped
-    depends_on:
-      - redis
 
-  redis:
-    image: redis:7-alpine
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: webapp
+      POSTGRES_PASSWORD: your-password
+      POSTGRES_DB: webapp_db
     ports:
-      - "6379:6379"
+      - "7638:5432"
     volumes:
-      - redis_data:/data
+      - webapp_postgres_data:/var/lib/postgresql/data
     networks:
       - webapp-network
     restart: unless-stopped
-    command: redis-server --appendonly yes
+
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - webapp-network
+  #   restart: unless-stopped
+  #   command: redis-server --appendonly yes
 
   # nginx:
   #   image: nginx:alpine
@@ -55,6 +65,7 @@ services:
 
 volumes:
   redis_data:
+  webapp_postgres_data:
 
 networks:
   webapp-network:
