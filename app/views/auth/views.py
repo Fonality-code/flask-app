@@ -133,25 +133,25 @@ def change_password():
 @auth.route('/admin')
 @login_required
 def admin():
-    """Admin dashboard - requires admin role"""
+    """Admin dashboard - redirect to new admin blueprint"""
     if not current_user.has_role('admin'):
         flash('Access denied. Admin privileges required.', 'error')
         return redirect(url_for('main.index'))
 
-    users = User.query.all()
-    return render_template('auth/admin.html', users=users)
+    # Redirect to new admin blueprint
+    return redirect(url_for('admin.dashboard'))
 
 
 @auth.route('/admin/users/<int:user_id>')
 @login_required
 def admin_user_detail(user_id):
-    """Admin user detail page"""
+    """Admin user detail page - redirect to new admin blueprint"""
     if not current_user.has_role('admin') and not current_user.can_access_user(user_id, 'read'):
         flash('Access denied.', 'error')
         return redirect(url_for('main.index'))
 
-    user = User.query.get_or_404(user_id)
-    return render_template('auth/user_detail.html', user=user)
+    # Redirect to new admin blueprint
+    return redirect(url_for('admin.user_detail', user_id=user_id))
 
 
 @auth.route('/profile/edit', methods=['GET', 'POST'])

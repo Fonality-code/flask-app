@@ -3,7 +3,7 @@ Admin Forms
 """
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SelectField, IntegerField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Length, Optional, Email, URL
+from wtforms.validators import DataRequired, Length, Optional, Email, URL, NumberRange
 from app.models import Role, Permission
 
 
@@ -12,7 +12,7 @@ class UserManagementForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired(), Length(1, 64)])
     last_name = StringField('Last Name', validators=[DataRequired(), Length(1, 64)])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(1, 120)])
-    account_type = SelectField('Account Type', 
+    account_type = SelectField('Account Type',
                               choices=[('individual', 'Individual'), ('business', 'Business')],
                               validators=[DataRequired()])
     account_status = SelectField('Account Status',
@@ -57,7 +57,7 @@ class UserRelationshipForm(FlaskForm):
     parent_user_id = IntegerField('Parent User ID', validators=[DataRequired()])
     child_user_id = IntegerField('Child User ID', validators=[DataRequired()])
     relationship_type = SelectField('Relationship Type',
-                                   choices=[('manager', 'Manager'), ('parent_company', 'Parent Company'), 
+                                   choices=[('manager', 'Manager'), ('parent_company', 'Parent Company'),
                                           ('team_lead', 'Team Lead'), ('supervisor', 'Supervisor')],
                                    validators=[DataRequired()])
     submit = SubmitField('Create Relationship')
@@ -65,18 +65,28 @@ class UserRelationshipForm(FlaskForm):
 
 class SystemSettingsForm(FlaskForm):
     """Form for system settings"""
+    # Site Settings
     site_name = StringField('Site Name', validators=[DataRequired(), Length(1, 100)])
     site_description = TextAreaField('Site Description', validators=[Optional(), Length(0, 500)])
-    admin_email = StringField('Admin Email', validators=[DataRequired(), Email()])
-    max_upload_size = IntegerField('Max Upload Size (MB)', validators=[DataRequired()])
+    contact_email = StringField('Contact Email', validators=[DataRequired(), Email()])
+
+    # Security Settings
+    max_login_attempts = IntegerField('Maximum Login Attempts', validators=[DataRequired(), NumberRange(min=1, max=10)], default=5)
+    session_timeout = IntegerField('Session Timeout (minutes)', validators=[DataRequired(), NumberRange(min=5, max=1440)], default=60)
+    require_email_verification = BooleanField('Require Email Verification')
+    enable_registration = BooleanField('Enable User Registration', default=True)
+
+    # Maintenance
     maintenance_mode = BooleanField('Maintenance Mode')
+    maintenance_message = TextAreaField('Maintenance Message', validators=[Optional(), Length(0, 500)])
+
     submit = SubmitField('Save Settings')
 
 
 class BulkUserActionForm(FlaskForm):
     """Form for bulk user actions"""
     action = SelectField('Action',
-                        choices=[('activate', 'Activate'), ('deactivate', 'Deactivate'), 
+                        choices=[('activate', 'Activate'), ('deactivate', 'Deactivate'),
                                ('suspend', 'Suspend'), ('delete', 'Delete')],
                         validators=[DataRequired()])
     user_ids = StringField('User IDs (comma-separated)', validators=[DataRequired()])
