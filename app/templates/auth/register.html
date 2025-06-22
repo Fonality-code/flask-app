@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            
+            <fieldset>
+                <legend>Personal Information</legend>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form.first_name.label }}
+                        {{ form.first_name(class="form-control") }}
+                        {% if form.first_name.errors %}
+                            <div class="error">
+                                {% for error in form.first_name.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.last_name.label }}
+                        {{ form.last_name(class="form-control") }}
+                        {% if form.last_name.errors %}
+                            <div class="error">
+                                {% for error in form.last_name.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email(class="form-control") }}
+                    {% if form.email.errors %}
+                        <div class="error">
+                            {% for error in form.email.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form.phone_number.label }}
+                        {{ form.phone_number(class="form-control") }}
+                        {% if form.phone_number.errors %}
+                            <div class="error">
+                                {% for error in form.phone_number.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.date_of_birth.label }}
+                        {{ form.date_of_birth(class="form-control") }}
+                        {% if form.date_of_birth.errors %}
+                            <div class="error">
+                                {% for error in form.date_of_birth.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <legend>Location</legend>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form.country.label }}
+                        {{ form.country(class="form-control") }}
+                        {% if form.country.errors %}
+                            <div class="error">
+                                {% for error in form.country.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.city.label }}
+                        {{ form.city(class="form-control") }}
+                        {% if form.city.errors %}
+                            <div class="error">
+                                {% for error in form.city.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.address.label }}
+                    {{ form.address(class="form-control") }}
+                    {% if form.address.errors %}
+                        <div class="error">
+                            {% for error in form.address.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <legend>Account Settings</legend>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form.preferred_language.label }}
+                        {{ form.preferred_language(class="form-control") }}
+                        {% if form.preferred_language.errors %}
+                            <div class="error">
+                                {% for error in form.preferred_language.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.account_type.label }}
+                        {{ form.account_type(class="form-control", onchange="toggleBusinessFields()") }}
+                        {% if form.account_type.errors %}
+                            <div class="error">
+                                {% for error in form.account_type.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </fieldset>
+            
+            <fieldset id="business-fields" style="display: none;">
+                <legend>Business Information (Optional)</legend>
+                
+                <div class="form-group">
+                    {{ form.business_name.label }}
+                    {{ form.business_name(class="form-control") }}
+                    {% if form.business_name.errors %}
+                        <div class="error">
+                            {% for error in form.business_name.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form.business_type.label }}
+                        {{ form.business_type(class="form-control") }}
+                        {% if form.business_type.errors %}
+                            <div class="error">
+                                {% for error in form.business_type.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.website_url.label }}
+                        {{ form.website_url(class="form-control") }}
+                        {% if form.website_url.errors %}
+                            <div class="error">
+                                {% for error in form.website_url.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.business_description.label }}
+                    {{ form.business_description(class="form-control", rows="3") }}
+                    {% if form.business_description.errors %}
+                        <div class="error">
+                            {% for error in form.business_description.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <legend>Password</legend>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form.password.label }}
+                        {{ form.password(class="form-control") }}
+                        {% if form.password.errors %}
+                            <div class="error">
+                                {% for error in form.password.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.password_confirm.label }}
+                        {{ form.password_confirm(class="form-control") }}
+                        {% if form.password_confirm.errors %}
+                            <div class="error">
+                                {% for error in form.password_confirm.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </fieldset>
+            
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        
+        <div class="links">
+            <p><a href="{{ url_for('auth.login') }}">Already have an account? Login here</a></p>
+            <p><a href="{{ url_for('main.index') }}">Back to Home</a></p>
+        </div>
+    </div>
+    
+    <style>
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; }
+        fieldset { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; }
+        legend { padding: 0 10px; font-weight: bold; }
+        .form-row { display: flex; gap: 15px; }
+        .form-group { margin-bottom: 15px; flex: 1; }
+        .form-control { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; }
+        textarea.form-control { resize: vertical; }
+        .btn { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .btn:hover { background-color: #0056b3; }
+        .alert { padding: 10px; margin-bottom: 15px; border-radius: 4px; }
+        .alert-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { color: #dc3545; font-size: 0.875em; }
+        .links { margin-top: 20px; text-align: center; }
+        .links a { color: #007bff; text-decoration: none; }
+        .links a:hover { text-decoration: underline; }
+    </style>
+    
+    <script>
+        function toggleBusinessFields() {
+            const accountType = document.getElementById('account_type').value;
+            const businessFields = document.getElementById('business-fields');
+            
+            if (accountType === 'business' || accountType === 'both') {
+                businessFields.style.display = 'block';
+            } else {
+                businessFields.style.display = 'none';
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleBusinessFields();
+        });
+    </script>
+</body>
+</html>

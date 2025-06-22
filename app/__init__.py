@@ -12,9 +12,16 @@ def create_app():
 
 
     # Initialize extensions
-    from app.extensions import db, babel, get_locale
+    from app.extensions import db, babel, get_locale, login_manager
     db.init_app(app)
     babel.init_app(app, locale_selector=get_locale) # type: ignore
+    login_manager.init_app(app)
+
+    # User loader for Flask-Login
+    @login_manager.user_loader
+    def load_user(user_id):
+        from app.models import User
+        return User.query.get(int(user_id))
 
     # Register blueprints
     from app.views import register_blueprints

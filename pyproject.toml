@@ -13,4 +13,5 @@ dependencies = [
   "flask-migrate>=4.1.0",
   "flask-wtf>=1.2.2",
   "flask-babel>=4.0.0",
+  "email-validator>=2.2.0",
 ]

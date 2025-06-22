@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
 from flask_babel import Babel
+from flask_login import LoginManager
 
 
 def get_locale():
@@ -10,3 +11,6 @@ def get_locale():
 
 db = SQLAlchemy()
 babel = Babel()
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.login_message = 'Please log in to access this page.'

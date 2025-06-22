@@ -6,3 +6,5 @@ lg_init:
 	uv run pybabel init -i messages.pot -d app/translations/ -l fr
 lg_update:
 	uv run pybabel update -i messages.pot -d app/translations/
+clean:
+	

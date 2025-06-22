@@ -5,7 +5,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.extensions import db
-from typing import Any
+from typing import Any, List
 
 
 class User(UserMixin, db.Model):
@@ -45,6 +45,13 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
     last_login = db.Column(db.DateTime, nullable=True)
+
+    # RBAC relationships
+    from app.models.rbac import user_roles
+    roles = db.relationship('Role', 
+                          secondary=user_roles,
+                          backref=db.backref('users', lazy='dynamic'),
+                          lazy='dynamic')
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -92,3 +99,89 @@ class User(UserMixin, db.Model):
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'last_login': self.last_login.isoformat() if self.last_login else None
         }
+
+    # RBAC Methods
+    def add_role(self, role):
+        """Add role to user"""
+        if not self.has_role(role.name):
+            self.roles.append(role)
+
+    def remove_role(self, role):
+        """Remove role from user"""
+        if self.has_role(role.name):
+            self.roles.remove(role)
+
+    def has_role(self, role_name: str) -> bool:
+        """Check if user has a specific role"""
+        return self.roles.filter_by(name=role_name).first() is not None
+
+    def has_permission(self, permission_name: str, resource_type: str = None, resource_id: int = None) -> bool:
+        """Check if user has a specific permission"""
+        # Check role-based permissions
+        for role in self.roles:
+            if role.has_permission(permission_name):
+                return True
+        
+        # Check direct access control permissions
+        from app.models.rbac import AccessControl, Permission
+        query = AccessControl.query.join(Permission).filter(
+            AccessControl.user_id == self.id,
+            Permission.name == permission_name,
+            AccessControl.is_granted == True
+        )
+        
+        if resource_type:
+            query = query.filter(AccessControl.resource_type == resource_type)
+        
+        if resource_id:
+            query = query.filter(
+                db.or_(
+                    AccessControl.resource_id == resource_id,
+                    AccessControl.resource_id.is_(None)
+                )
+            )
+        
+        # Check for non-expired permissions
+        active_permissions = query.filter(
+            db.or_(
+                AccessControl.expires_at.is_(None),
+                AccessControl.expires_at > datetime.now()
+            )
+        ).all()
+        
+        return len(active_permissions) > 0
+
+    def can_access_user(self, target_user_id: int, permission_name: str) -> bool:
+        """Check if user can access another user based on relationships"""
+        if self.id == target_user_id:
+            return True  # Users can always access themselves
+        
+        # Check if user has direct permission
+        if self.has_permission(permission_name, 'user', target_user_id):
+            return True
+        
+        # Check relationship-based access
+        from app.models.rbac import UserRelationship
+        relationships = UserRelationship.query.filter(
+            UserRelationship.parent_user_id == self.id,
+            UserRelationship.child_user_id == target_user_id,
+            UserRelationship.is_active == True
+        ).all()
+        
+        return len(relationships) > 0
+
+    def get_accessible_users(self, permission_name: str = 'read') -> List[int]:
+        """Get list of user IDs this user can access"""
+        accessible_ids = [self.id]  # Always include self
+        
+        # Add users based on relationships
+        from app.models.rbac import UserRelationship
+        relationships = UserRelationship.query.filter(
+            UserRelationship.parent_user_id == self.id,
+            UserRelationship.is_active == True
+        ).all()
+        
+        for rel in relationships:
+            accessible_ids.append(rel.child_user_id)
+        
+        return accessible_ids
