@@ -1,6 +1,6 @@
 {% extends "layouts/auth.html" %}
 
-{% block title %}Create Account - WebApp{% endblock %}
+{% block title %}{{ _('Create Account - WebApp') }}{% endblock %}
 
 {% block page_content %}
 <div class="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-primary-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -11,15 +11,15 @@
                 class="inline-flex items-center justify-center w-16 h-16 rounded-lg bg-gradient-to-r from-primary-500 to-accent-500 mb-6">
                 <i class="fas fa-user-plus text-2xl text-white"></i>
             </div>
-            <h1 class="text-4xl font-display font-bold text-secondary-900 mb-4">Join Our Community</h1>
+            <h1 class="text-4xl font-display font-bold text-secondary-900 mb-4">{{ _('Join Our Community') }}</h1>
             <p class="text-lg text-secondary-600 max-w-2xl mx-auto mb-6">
-                Create your account to unlock powerful features and connect with professionals worldwide.
+                {{ _('Create your account to unlock powerful features and connect with professionals worldwide.') }}
             </p>
             <div class="inline-flex items-center space-x-2 text-sm text-secondary-500">
-                <span>Already have an account?</span>
+                <span>{{ _('Already have an account?') }}</span>
                 <a href="{{ url_for('auth.login') }}"
                     class="font-semibold text-primary-600 hover:text-primary-700 transition-colors duration-200">
-                    Sign in here →
+                    {{ _('Sign in here') }} →
                 </a>
             </div>
         </div>
@@ -46,10 +46,10 @@
                     data-step="4">4</div>
             </div>
             <div class="flex justify-between mt-2 text-xs text-secondary-500">
-                <span>Profile</span>
-                <span>Location</span>
-                <span>Account</span>
-                <span>Security</span>
+                <span>{{ _('Profile') }}</span>
+                <span>{{ _('Location') }}</span>
+                <span>{{ _('Account') }}</span>
+                <span>{{ _('Security') }}</span>
             </div>
         </div>
 
@@ -67,20 +67,20 @@
                                 <i class="fas fa-user text-white text-lg"></i>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-display font-bold text-secondary-900">Profile Setup</h2>
-                                <p class="text-secondary-600">Tell us about yourself</p>
+                                <h2 class="text-2xl font-display font-bold text-secondary-900">{{ _('Profile Setup') }}</h2>
+                                <p class="text-secondary-600">{{ _('Tell us about yourself') }}</p>
                             </div>
                         </div>
 
                         <!-- Profile Image Upload -->
                         <div class="mb-8">
-                            <label class="block text-sm font-semibold text-secondary-700 mb-4">Profile Picture</label>
+                            <label class="block text-sm font-semibold text-secondary-700 mb-4">{{ _('Profile Picture') }}</label>
                             <div class="flex items-center space-x-8">
                                 <div class="relative">
                                     <img id="profile-preview"
                                         class="w-24 h-24 object-cover rounded-lg border-2 border-secondary-200"
                                         src="https://ui-avatars.com/api/?name=Profile&background=0ea5e9&color=ffffff&size=200&rounded=true"
-                                        alt="Profile preview">
+                                        alt="{{ _('Profile preview') }}">
                                     <div
                                         class="absolute inset-0 rounded-lg bg-gradient-to-t from-secondary-900/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                                         <i class="fas fa-camera text-white text-lg"></i>
@@ -95,8 +95,8 @@
                                                     class="fas fa-cloud-upload-alt text-2xl text-secondary-400 group-hover:text-primary-500 mb-2"></i>
                                                 <p
                                                     class="text-sm font-medium text-secondary-600 group-hover:text-primary-600">
-                                                    Choose or drag a photo</p>
-                                                <p class="text-xs text-secondary-500">PNG, JPG up to 5MB</p>
+                                                    {{ _('Choose or drag a photo') }}</p>
+                                                <p class="text-xs text-secondary-500">{{ _('PNG, JPG up to 5MB') }}</p>
                                             </div>
                                         </div>
                                         {{ form.profile_image(class="absolute inset-0 w-full h-full opacity-0
@@ -107,7 +107,7 @@
                                     <div class="mt-2">
                                         {% for error in form.profile_image.errors %}
                                         <p class="text-sm text-danger-600 flex items-center">
-                                            <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                            <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                         </p>
                                         {% endfor %}
                                     </div>
@@ -123,12 +123,12 @@
                                 {{ form.first_name(class="w-full px-4 py-3 border border-secondary-200 rounded-md
                                 bg-white/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
                                 focus:border-primary-500 transition-all duration-200 placeholder-secondary-400
-                                text-secondary-900", placeholder="Enter your first name") }}
+                                text-secondary-900", placeholder=_("Enter your first name")) }}
                                 {% if form.first_name.errors %}
                                 <div class="mt-2">
                                     {% for error in form.first_name.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
@@ -141,12 +141,12 @@
                                 {{ form.last_name(class="w-full px-4 py-3 border border-secondary-200 rounded-md
                                 bg-white/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
                                 focus:border-primary-500 transition-all duration-200 placeholder-secondary-400
-                                text-secondary-900", placeholder="Enter your last name") }}
+                                text-secondary-900", placeholder=_("Enter your last name")) }}
                                 {% if form.last_name.errors %}
                                 <div class="mt-2">
                                     {% for error in form.last_name.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
@@ -159,12 +159,12 @@
                                 {{ form.email(class="w-full px-4 py-3 border border-secondary-200 rounded-md bg-white/70
                                 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
                                 focus:border-primary-500 transition-all duration-200 placeholder-secondary-400
-                                text-secondary-900", placeholder="your.email@example.com") }}
+                                text-secondary-900", placeholder=_("your.email@example.com")) }}
                                 {% if form.email.errors %}
                                 <div class="mt-2">
                                     {% for error in form.email.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
@@ -178,12 +178,12 @@
                                 {{ form.phone_number(class="w-full px-4 py-3 border border-secondary-200 rounded-md
                                 bg-white/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
                                 focus:border-primary-500 transition-all duration-200 placeholder-secondary-400
-                                text-secondary-900", placeholder="+1 (555) 123-4567") }}
+                                text-secondary-900", placeholder=_("+1 (555) 123-4567")) }}
                                 {% if form.phone_number.errors %}
                                 <div class="mt-2">
                                     {% for error in form.phone_number.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
@@ -202,7 +202,7 @@
                             <div class="mt-2">
                                 {% for error in form.date_of_birth.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -215,7 +215,7 @@
                         <div></div>
                         <button type="button" onclick="nextStep(2)"
                             class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold rounded-lg hover:from-primary-700 hover:to-accent-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
-                            Next
+                            {{ _('Next') }}
                             <i class="fas fa-arrow-right ml-2"></i>
                         </button>
                     </div>
@@ -230,8 +230,8 @@
                                 <i class="fas fa-map-marker-alt text-white text-lg"></i>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-display font-bold text-secondary-900">Location</h2>
-                                <p class="text-secondary-600">Where are you based?</p>
+                                <h2 class="text-2xl font-display font-bold text-secondary-900">{{ _('Location') }}</h2>
+                                <p class="text-secondary-600">{{ _('Where are you based?') }}</p>
                             </div>
                         </div>
 
@@ -246,7 +246,7 @@
                                 <div class="mt-2">
                                     {% for error in form.country.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
@@ -259,12 +259,12 @@
                                 {{ form.city(class="w-full px-4 py-3 border border-secondary-200 rounded-md bg-white/70
                                 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
                                 focus:border-primary-500 transition-all duration-200 placeholder-secondary-400
-                                text-secondary-900", placeholder="Enter your city") }}
+                                text-secondary-900", placeholder=_("Enter your city")) }}
                                 {% if form.city.errors %}
                                 <div class="mt-2">
                                     {% for error in form.city.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
@@ -278,15 +278,15 @@
                             {{ form.address(class="w-full px-4 py-3 border border-secondary-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
                             focus:border-primary-500 transition-all duration-200 placeholder-secondary-400
-                            text-secondary-900", placeholder="Street address (optional)") }}
+                            text-secondary-900", placeholder=_("Street address (optional)")) }}
                             {% if form.address.errors %}
                             <div class="mt-2">
                                 {% for error in form.address.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
-                            </div>
+                                </div>
                             {% endif %}
                         </div>
                     </div>
@@ -296,11 +296,11 @@
                         <button type="button" onclick="prevStep(1)"
                             class="inline-flex items-center px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-all duration-200">
                             <i class="fas fa-arrow-left mr-2"></i>
-                            Previous
+                            {{ _('Previous') }}
                         </button>
                         <button type="button" onclick="nextStep(3)"
                             class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold rounded-lg hover:from-primary-700 hover:to-accent-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
-                            Next
+                            {{ _('Next') }}
                             <i class="fas fa-arrow-right ml-2"></i>
                         </button>
                     </div>
@@ -315,8 +315,8 @@
                                 <i class="fas fa-cog text-white text-lg"></i>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-display font-bold text-secondary-900">Account Settings</h2>
-                                <p class="text-secondary-600">Customize your experience</p>
+                                <h2 class="text-2xl font-display font-bold text-secondary-900">{{ _('Account Settings') }}</h2>
+                                <p class="text-secondary-600">{{ _('Customize your experience') }}</p>
                             </div>
                         </div>
 
@@ -333,7 +333,7 @@
                                 <div class="mt-2">
                                     {% for error in form.preferred_language.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
@@ -352,7 +352,7 @@
                                 <div class="mt-2">
                                     {% for error in form.account_type.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
@@ -365,7 +365,7 @@
                             <div class="p-6 bg-slate-50/80 rounded-lg border border-slate-200">
                                 <h3 class="text-lg font-semibold text-secondary-900 mb-4 flex items-center">
                                     <i class="fas fa-building text-primary-600 mr-2"></i>
-                                    Business Information (Optional)
+                                    {{ _('Business Information (Optional)') }}
                                 </h3>
 
                                 <!-- Business Name -->
@@ -375,12 +375,12 @@
                                     {{ form.business_name(class="w-full px-4 py-3 border border-secondary-200 rounded-md
                                     bg-white focus:outline-none focus:ring-2 focus:ring-primary-500
                                     focus:border-primary-500 transition-all duration-200 placeholder-secondary-400
-                                    text-secondary-900", placeholder="Your business name") }}
+                                    text-secondary-900", placeholder=_("Your business name")) }}
                                     {% if form.business_name.errors %}
                                     <div class="mt-2">
                                         {% for error in form.business_name.errors %}
                                         <p class="text-sm text-danger-600 flex items-center">
-                                            <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                            <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                         </p>
                                         {% endfor %}
                                     </div>
@@ -399,7 +399,7 @@
                                         <div class="mt-2">
                                             {% for error in form.business_type.errors %}
                                             <p class="text-sm text-danger-600 flex items-center">
-                                                <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                                <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                             </p>
                                             {% endfor %}
                                         </div>
@@ -413,12 +413,12 @@
                                         {{ form.website_url(class="w-full px-4 py-3 border border-secondary-200
                                         rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-primary-500
                                         focus:border-primary-500 transition-all duration-200 placeholder-secondary-400
-                                        text-secondary-900", placeholder="https://yourbusiness.com") }}
+                                        text-secondary-900", placeholder=_("https://yourbusiness.com")) }}
                                         {% if form.website_url.errors %}
                                         <div class="mt-2">
                                             {% for error in form.website_url.errors %}
                                             <p class="text-sm text-danger-600 flex items-center">
-                                                <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                                <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                             </p>
                                             {% endfor %}
                                         </div>
@@ -433,13 +433,13 @@
                                     {{ form.business_description(class="w-full px-4 py-3 border border-secondary-200
                                     rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-primary-500
                                     focus:border-primary-500 transition-all duration-200 placeholder-secondary-400
-                                    text-secondary-900 resize-none", rows="4", placeholder="Brief description of your
-                                    business...") }}
+                                    text-secondary-900 resize-none", rows="4", placeholder=_("Brief description of your
+                                    business...")) }}
                                     {% if form.business_description.errors %}
                                     <div class="mt-2">
                                         {% for error in form.business_description.errors %}
                                         <p class="text-sm text-danger-600 flex items-center">
-                                            <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                            <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                         </p>
                                         {% endfor %}
                                     </div>
@@ -454,11 +454,11 @@
                         <button type="button" onclick="prevStep(2)"
                             class="inline-flex items-center px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-all duration-200">
                             <i class="fas fa-arrow-left mr-2"></i>
-                            Previous
+                            {{ _('Previous') }}
                         </button>
                         <button type="button" onclick="nextStep(4)"
                             class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold rounded-lg hover:from-primary-700 hover:to-accent-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
-                            Next
+                            {{ _('Next') }}
                             <i class="fas fa-arrow-right ml-2"></i>
                         </button>
                     </div>
@@ -473,8 +473,8 @@
                                 <i class="fas fa-lock text-white text-lg"></i>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-display font-bold text-secondary-900">Security</h2>
-                                <p class="text-secondary-600">Choose a strong password</p>
+                                <h2 class="text-2xl font-display font-bold text-secondary-900">{{ _('Security') }}</h2>
+                                <p class="text-secondary-600">{{ _('Choose a strong password') }}</p>
                             </div>
                         </div>
 
@@ -489,14 +489,14 @@
                                 <div class="mt-2">
                                     {% for error in form.password.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
                                 {% endif %}
                                 <p class="mt-2 text-xs text-secondary-500 flex items-center">
                                     <i class="fas fa-info-circle mr-1"></i>
-                                    Minimum 8 characters with letters and numbers
+                                    {{ _('Minimum 8 characters with letters and numbers') }}
                                 </p>
                             </div>
 
@@ -511,7 +511,7 @@
                                 <div class="mt-2">
                                     {% for error in form.password_confirm.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
@@ -521,19 +521,19 @@
 
                         <!-- Password Requirements -->
                         <div class="mt-6 p-4 bg-slate-50/80 rounded-lg border border-slate-200">
-                            <h4 class="text-sm font-semibold text-slate-900 mb-3">Password Requirements:</h4>
+                            <h4 class="text-sm font-semibold text-slate-900 mb-3">{{ _('Password Requirements:') }}</h4>
                             <ul class="text-sm text-slate-600 space-y-1">
                                 <li class="flex items-center">
                                     <i class="fas fa-check text-success-500 mr-2 text-xs"></i>
-                                    At least 8 characters long
+                                    {{ _('At least 8 characters long') }}
                                 </li>
                                 <li class="flex items-center">
                                     <i class="fas fa-check text-success-500 mr-2 text-xs"></i>
-                                    Contains letters and numbers
+                                    {{ _('Contains letters and numbers') }}
                                 </li>
                                 <li class="flex items-center">
                                     <i class="fas fa-check text-success-500 mr-2 text-xs"></i>
-                                    Special characters recommended
+                                    {{ _('Special characters recommended') }}
                                 </li>
                             </ul>
                         </div>
@@ -544,12 +544,12 @@
                         <button type="button" onclick="prevStep(3)"
                             class="inline-flex items-center px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-all duration-200">
                             <i class="fas fa-arrow-left mr-2"></i>
-                            Previous
+                            {{ _('Previous') }}
                         </button>
                         <button type="submit"
                             class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-success-600 to-primary-600 text-white font-semibold rounded-lg hover:from-success-700 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-success-500 transition-all duration-200">
                             <i class="fas fa-user-plus mr-2"></i>
-                            Create Account
+                            {{ _('Create Account') }}
                         </button>
                     </div>
                 </div>
@@ -669,7 +669,7 @@
 
     function handleImagePreview(event) {
         const file = event.target.files[0];
-        const preview = document.querySelector('img[alt="Profile preview"]');
+        const preview = document.querySelector('img[alt="{{ _("Profile preview") }}"]');
 
         if (file) {
             const reader = new FileReader();

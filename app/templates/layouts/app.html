@@ -15,13 +15,13 @@
                     </div>
                     <div class="ml-3">
                         <h1 class="text-xl font-display font-semibold text-secondary-900">{{ _('WebApp') }}</h1>
-                        <p class="text-xs text-secondary-500 font-medium">Professional Dashboard</p>
+                        <p class="text-xs text-secondary-500 font-medium">{{ _('Professional Dashboard') }}</p>
                     </div>
                 </div>
             </div>
 
             <!-- Navigation -->
-            <nav class="mt-8 flex-1 px-4 space-y-2  ">
+            <nav class="mt-8 flex-1 px-4 space-y-2">
                 {% include 'components/sidebar_nav.html' %}
             </nav>
 
@@ -31,7 +31,7 @@
                 class="flex-shrink-0 border-t border-secondary-200/50 p-4 bg-gradient-to-r from-secondary-50 to-primary-50">
                 <div class="flex items-center">
                     {% if current_user.profile_image_url %}
-                    <img src="{{ current_user.profile_image_url }}" alt="Profile"
+                    <img src="{{ current_user.profile_image_url }}" alt="{{ _('Profile') }}"
                         class="w-10 h-10 rounded-xl object-cover ring-2 ring-primary-200 shadow-soft">
                     {% else %}
                     <div
@@ -41,7 +41,7 @@
                     {% endif %}
                     <div class="ml-3 flex-1">
                         <p class="text-sm font-semibold text-secondary-900">{{ current_user.first_name }}</p>
-                        <p class="text-xs text-secondary-500 font-medium">{{ current_user.account_type.title() }}</p>
+                        <p class="text-xs text-secondary-500 font-medium">{{ _(current_user.account_type.title()) }}</p>
                     </div>
                     <div class="ml-2">
                         <button
@@ -109,7 +109,7 @@
                 <div class="border-t border-secondary-200/50 p-4 bg-gradient-to-r from-secondary-50 to-primary-50">
                     <div class="flex items-center">
                         {% if current_user.profile_image_url %}
-                        <img src="{{ current_user.profile_image_url }}" alt="Profile"
+                        <img src="{{ current_user.profile_image_url }}" alt="{{ _('Profile') }}"
                             class="w-10 h-10 rounded-xl object-cover ring-2 ring-primary-200 shadow-soft">
                         {% else %}
                         <div
@@ -119,8 +119,7 @@
                         {% endif %}
                         <div class="ml-3">
                             <p class="text-sm font-semibold text-secondary-900">{{ current_user.first_name }}</p>
-                            <p class="text-xs text-secondary-500 font-medium">{{ current_user.account_type.title() }}
-                            </p>
+                            <p class="text-xs text-secondary-500 font-medium">{{ _(current_user.account_type.title()) }}</p>
                         </div>
                     </div>
                 </div>
@@ -148,7 +147,7 @@
                             <i
                                 class="fas {% if category == 'error' %}fa-exclamation-circle{% elif category == 'success' %}fa-check-circle{% elif category == 'info' %}fa-info-circle{% else %}fa-exclamation-triangle{% endif %} mt-0.5 mr-3"></i>
                         </div>
-                        <span class="font-medium">{{ message }}</span>
+                        <span class="font-medium">{{ _(message) }}</span>
                     </div>
                 </div>
                 {% endfor %}

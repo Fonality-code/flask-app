@@ -1,6 +1,6 @@
 {% extends "layouts/app.html" %}
 
-{% block title %}Edit Profile - Web App{% endblock %}
+{% block title %}{{ _('Edit Profile - Web App') }}{% endblock %}
 
 {% block page_content %}
 <div class="max-w-4xl mx-auto">
@@ -10,14 +10,14 @@
             <div>
                 <h1
                     class="text-3xl font-display font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
-                    Edit Profile
+                    {{ _('Edit Profile') }}
                 </h1>
-                <p class="mt-4 text-base text-slate-600">Update your account information and settings</p>
+                <p class="mt-4 text-base text-slate-600">{{ _('Update your account information and settings') }}</p>
             </div>
             <a href="{{ url_for('auth.profile') }}"
                 class="inline-flex items-center px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-all duration-200 border border-slate-200">
                 <i class="fas fa-arrow-left mr-2"></i>
-                Back to Profile
+                {{ _('Back to Profile') }}
             </a>
         </div>
     </div>
@@ -30,27 +30,27 @@
                 <button type="button" onclick="showTab('profile')"
                     class="tab-button active border-b-2 border-primary-500 py-2 px-1 text-sm font-medium text-primary-600"
                     id="profile-tab">
-                    <i class="fas fa-user mr-2"></i>Profile & Image
+                    <i class="fas fa-user mr-2"></i>{{ _('Profile & Image') }}
                 </button>
                 <button type="button" onclick="showTab('personal')"
                     class="tab-button border-b-2 border-transparent py-2 px-1 text-sm font-medium text-slate-500 hover:text-slate-700 hover:border-slate-300"
                     id="personal-tab">
-                    <i class="fas fa-id-card mr-2"></i>Personal Info
+                    <i class="fas fa-id-card mr-2"></i>{{ _('Personal Info') }}
                 </button>
                 <button type="button" onclick="showTab('location')"
                     class="tab-button border-b-2 border-transparent py-2 px-1 text-sm font-medium text-slate-500 hover:text-slate-700 hover:border-slate-300"
                     id="location-tab">
-                    <i class="fas fa-map-marker-alt mr-2"></i>Location
+                    <i class="fas fa-map-marker-alt mr-2"></i>{{ _('Location') }}
                 </button>
                 <button type="button" onclick="showTab('account')"
                     class="tab-button border-b-2 border-transparent py-2 px-1 text-sm font-medium text-slate-500 hover:text-slate-700 hover:border-slate-300"
                     id="account-tab">
-                    <i class="fas fa-cog mr-2"></i>Account
+                    <i class="fas fa-cog mr-2"></i>{{ _('Account') }}
                 </button>
                 <button type="button" onclick="showTab('business')"
                     class="tab-button border-b-2 border-transparent py-2 px-1 text-sm font-medium text-slate-500 hover:text-slate-700 hover:border-slate-300"
                     id="business-tab">
-                    <i class="fas fa-building mr-2"></i>Business
+                    <i class="fas fa-building mr-2"></i>{{ _('Business') }}
                 </button>
             </nav>
         </div>
@@ -66,14 +66,14 @@
                             class="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center mr-3">
                             <i class="fas fa-camera text-sm text-white"></i>
                         </div>
-                        Profile Image
+                        {{ _('Profile Image') }}
                     </h3>
 
                     <div class="flex items-start space-x-6">
                         <!-- Current Image Preview -->
                         <div class="flex-shrink-0">
                             {% if current_user.profile_image_url %}
-                            <img src="{{ current_user.profile_image_url }}" alt="Current Profile Picture"
+                            <img src="{{ current_user.profile_image_url }}" alt="{{ _('Current Profile Picture') }}"
                                 class="w-24 h-24 rounded-lg object-cover border-4 border-slate-200" id="current-image">
                             {% else %}
                             <div class="w-24 h-24 rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center border-4 border-slate-300"
@@ -89,7 +89,7 @@
                             <div>
                                 <label for="{{ form.profile_image.id }}"
                                     class="block text-sm font-semibold text-slate-700 mb-2">
-                                    Upload New Image
+                                    {{ _('Upload New Image') }}
                                 </label>
                                 {{ form.profile_image(class="block w-full text-sm text-slate-500 file:mr-4 file:py-3
                                 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary-50
@@ -99,14 +99,14 @@
                                 <div class="mt-2 space-y-1">
                                     {% for error in form.profile_image.errors %}
                                     <p class="text-sm text-danger-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                     </p>
                                     {% endfor %}
                                 </div>
                                 {% endif %}
                                 <p class="mt-2 text-sm text-slate-500">
                                     <i class="fas fa-info-circle mr-1 text-primary-400"></i>
-                                    Supported formats: JPG, JPEG, PNG, GIF, WebP (max 5MB)
+                                    {{ _('Supported formats: JPG, JPEG, PNG, GIF, WebP (max 5MB)') }}
                                 </p>
                             </div>
 
@@ -117,14 +117,15 @@
                                 border-slate-300 rounded") }}
                                 <label for="{{ form.remove_profile_image.id }}"
                                     class="ml-3 block text-sm font-medium text-slate-700">
-                                    Remove current profile image
+                                    {{ _('Remove current profile image') }}
                                 </label>
                             </div>
                             {% endif %}
 
                             <!-- New Image Preview -->
                             <div id="new-image-preview" class="hidden">
-                                <label class="block text-sm font-semibold text-slate-700 mb-2">New Image Preview</label>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">{{ _('New Image Preview')
+                                    }}</label>
                                 <img id="preview-img"
                                     class="w-24 h-24 rounded-lg object-cover border-4 border-primary-200">
                             </div>
@@ -141,7 +142,7 @@
                             class="w-8 h-8 bg-gradient-to-br from-secondary-500 to-primary-500 rounded-lg flex items-center justify-center mr-3">
                             <i class="fas fa-user text-sm text-white"></i>
                         </div>
-                        Personal Information
+                        {{ _('Personal Information') }}
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -149,7 +150,7 @@
                         <div class="space-y-1">
                             <label for="{{ form.first_name.id }}"
                                 class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.first_name.label.text }}
+                                {{ _(form.first_name.label.text) }}
                             </label>
                             {{ form.first_name(class="w-full px-4 py-3 border border-slate-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -158,7 +159,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.first_name.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -169,7 +170,7 @@
                         <div class="space-y-1">
                             <label for="{{ form.last_name.id }}"
                                 class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.last_name.label.text }}
+                                {{ _(form.last_name.label.text) }}
                             </label>
                             {{ form.last_name(class="w-full px-4 py-3 border border-slate-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -178,7 +179,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.last_name.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -189,7 +190,7 @@
                         <div class="space-y-1">
                             <label for="{{ form.phone_number.id }}"
                                 class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.phone_number.label.text }}
+                                {{ _(form.phone_number.label.text) }}
                             </label>
                             {{ form.phone_number(class="w-full px-4 py-3 border border-slate-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -198,7 +199,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.phone_number.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -209,7 +210,7 @@
                         <div class="space-y-1">
                             <label for="{{ form.date_of_birth.id }}"
                                 class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.date_of_birth.label.text }}
+                                {{ _(form.date_of_birth.label.text) }}
                             </label>
                             {{ form.date_of_birth(class="w-full px-4 py-3 border border-slate-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -218,7 +219,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.date_of_birth.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -236,14 +237,14 @@
                             class="w-8 h-8 bg-gradient-to-br from-accent-500 to-secondary-500 rounded-lg flex items-center justify-center mr-3">
                             <i class="fas fa-map-marker-alt text-sm text-white"></i>
                         </div>
-                        Location
+                        {{ _('Location') }}
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Country -->
                         <div class="space-y-1">
                             <label for="{{ form.country.id }}" class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.country.label.text }}
+                                {{ _(form.country.label.text) }}
                             </label>
                             {{ form.country(class="w-full px-4 py-3 border border-slate-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -252,7 +253,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.country.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -262,7 +263,7 @@
                         <!-- City -->
                         <div class="space-y-1">
                             <label for="{{ form.city.id }}" class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.city.label.text }}
+                                {{ _(form.city.label.text) }}
                             </label>
                             {{ form.city(class="w-full px-4 py-3 border border-slate-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -271,7 +272,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.city.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -281,7 +282,7 @@
                         <!-- Address -->
                         <div class="md:col-span-2 space-y-1">
                             <label for="{{ form.address.id }}" class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.address.label.text }}
+                                {{ _(form.address.label.text) }}
                             </label>
                             {{ form.address(class="w-full px-4 py-3 border border-slate-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -290,7 +291,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.address.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -308,7 +309,7 @@
                             class="w-8 h-8 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center mr-3">
                             <i class="fas fa-cog text-sm text-white"></i>
                         </div>
-                        Account Settings
+                        {{ _('Account Settings') }}
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -316,7 +317,7 @@
                         <div class="space-y-1">
                             <label for="{{ form.preferred_language.id }}"
                                 class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.preferred_language.label.text }}
+                                {{ _(form.preferred_language.label.text) }}
                             </label>
                             {{ form.preferred_language(class="w-full px-4 py-3 border border-slate-200 rounded-md
                             bg-white/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -325,7 +326,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.preferred_language.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -343,9 +344,9 @@
                             class="w-8 h-8 bg-gradient-to-br from-accent-500 to-primary-500 rounded-lg flex items-center justify-center mr-3">
                             <i class="fas fa-building text-sm text-white"></i>
                         </div>
-                        Business Information
-                        <span
-                            class="text-sm font-normal text-slate-500 ml-3 bg-slate-100 px-3 py-1 rounded-full">(Optional)</span>
+                        {{ _('Business Information') }}
+                        <span class="text-sm font-normal text-slate-500 ml-3 bg-slate-100 px-3 py-1 rounded-full">{{
+                            _('(Optional)') }}</span>
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -353,7 +354,7 @@
                         <div class="space-y-1">
                             <label for="{{ form.business_name.id }}"
                                 class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.business_name.label.text }}
+                                {{ _(form.business_name.label.text) }}
                             </label>
                             {{ form.business_name(class="w-full px-4 py-3 border border-slate-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -362,7 +363,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.business_name.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -373,7 +374,7 @@
                         <div class="space-y-1">
                             <label for="{{ form.business_type.id }}"
                                 class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.business_type.label.text }}
+                                {{ _(form.business_type.label.text) }}
                             </label>
                             {{ form.business_type(class="w-full px-4 py-3 border border-slate-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -382,7 +383,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.business_type.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -393,17 +394,17 @@
                         <div class="md:col-span-2 space-y-1">
                             <label for="{{ form.website_url.id }}"
                                 class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.website_url.label.text }}
+                                {{ _(form.website_url.label.text) }}
                             </label>
                             {{ form.website_url(class="w-full px-4 py-3 border border-slate-200 rounded-md bg-white/70
                             backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
                             focus:border-primary-500 transition-all duration-200",
-                            placeholder="https://www.example.com") }}
+                            placeholder=_('https://www.example.com')) }}
                             {% if form.website_url.errors %}
                             <div class="mt-2 space-y-1">
                                 {% for error in form.website_url.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -414,7 +415,7 @@
                         <div class="md:col-span-2 space-y-1">
                             <label for="{{ form.business_description.id }}"
                                 class="block text-sm font-semibold text-slate-700 mb-2">
-                                {{ form.business_description.label.text }}
+                                {{ _(form.business_description.label.text) }}
                             </label>
                             {{ form.business_description(class="w-full px-4 py-3 border border-slate-200 rounded-md
                             bg-white/70 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500
@@ -423,7 +424,7 @@
                             <div class="mt-2 space-y-1">
                                 {% for error in form.business_description.errors %}
                                 <p class="text-sm text-danger-600 flex items-center">
-                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ error }}
+                                    <i class="fas fa-exclamation-circle mr-2"></i>{{ _(error) }}
                                 </p>
                                 {% endfor %}
                             </div>
@@ -438,12 +439,12 @@
                 <a href="{{ url_for('auth.profile') }}"
                     class="inline-flex items-center justify-center px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-all duration-200 border border-slate-200">
                     <i class="fas fa-times mr-2"></i>
-                    Cancel
+                    {{ _('Cancel') }}
                 </a>
                 <button type="submit"
                     class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-primary-600 to-accent-600 hover:from-primary-700 hover:to-accent-700 text-white font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                     <i class="fas fa-save mr-2"></i>
-                    Save Changes
+                    {{ _('Save Changes') }}
                 </button>
             </div>
         </form>

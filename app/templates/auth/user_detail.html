@@ -1,6 +1,6 @@
 {% extends "layouts/app.html" %}
 
-{% block title %}User Details - {{ user.full_name }} - Web App{% endblock %}
+{% block title %}{{ _('User Details - {name} - Web App').format(name=user.full_name) }}{% endblock %}
 
 {% block page_content %}
 <div class="max-w-6xl mx-auto">
@@ -8,14 +8,14 @@
     <div class="mb-8">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">User Details</h1>
-                <p class="mt-2 text-gray-600">Detailed information for {{ user.full_name }}</p>
+                <h1 class="text-3xl font-bold text-gray-900">{{ _('User Details') }}</h1>
+                <p class="mt-2 text-gray-600">{{ _('Detailed information for {name}').format(name=user.full_name) }}</p>
             </div>
             <div class="flex space-x-3">
                 <a href="{{ url_for('auth.admin') }}"
                     class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition-colors">
                     <i class="fas fa-arrow-left mr-2"></i>
-                    Back to Admin
+                    {{ _('Back to Admin') }}
                 </a>
             </div>
         </div>
@@ -27,7 +27,7 @@
             <div class="bg-white rounded-lg shadow-md p-6 text-center">
                 <div class="mb-4">
                     {% if user.profile_image_url %}
-                    <img src="{{ user.profile_image_url }}" alt="Profile Picture"
+                    <img src="{{ user.profile_image_url }}" alt="{{ _('Profile Picture') }}"
                         class="w-32 h-32 rounded-full mx-auto object-cover border-4 border-gray-200">
                     {% else %}
                     <div
@@ -45,19 +45,19 @@
                     <span
                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                         <i class="fas fa-exclamation-triangle mr-1"></i>
-                        Email Not Verified
+                        {{ _('Email Not Verified') }}
                     </span>
                     {% else %}
                     <span
                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                         <i class="fas fa-check-circle mr-1"></i>
-                        Email Verified
+                        {{ _('Email Verified') }}
                     </span>
                     {% endif %}
 
                     <span
                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {% if user.account_status == 'active' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
-                        {{ user.account_status.title() }}
+                        {{ _(user.account_status.title()) }}
                     </span>
                 </div>
 
@@ -68,13 +68,13 @@
                     <button onclick="toggleUserStatus({{ user.id }}, 'inactive')"
                         class="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors">
                         <i class="fas fa-user-slash mr-2"></i>
-                        Deactivate User
+                        {{ _('Deactivate User') }}
                     </button>
                     {% else %}
                     <button onclick="toggleUserStatus({{ user.id }}, 'active')"
                         class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors">
                         <i class="fas fa-user-check mr-2"></i>
-                        Activate User
+                        {{ _('Activate User') }}
                     </button>
                     {% endif %}
                 </div>
@@ -86,55 +86,54 @@
         <div class="lg:col-span-2 space-y-6">
             <!-- Personal Information -->
             <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Personal Information
-                </h2>
+                <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">{{ _('Personal Information') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">User ID</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('User ID') }}</label>
                         <p class="mt-1 text-gray-900 font-mono">{{ user.id }}</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Full Name</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Full Name') }}</label>
                         <p class="mt-1 text-gray-900">{{ user.full_name }}</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Email</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Email') }}</label>
                         <p class="mt-1 text-gray-900">{{ user.email }}</p>
                     </div>
                     {% if user.phone_number %}
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Phone</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Phone') }}</label>
                         <p class="mt-1 text-gray-900">{{ user.phone_number }}</p>
                     </div>
                     {% endif %}
                     {% if user.date_of_birth %}
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Date of Birth</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Date of Birth') }}</label>
                         <p class="mt-1 text-gray-900">{{ user.date_of_birth.strftime('%B %d, %Y') }}</p>
                     </div>
                     {% endif %}
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Preferred Language</label>
-                        <p class="mt-1 text-gray-900">{{ user.preferred_language }}</p>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Preferred Language') }}</label>
+                        <p class="mt-1 text-gray-900">{{ _(user.preferred_language.title()) }}</p>
                     </div>
                 </div>
             </div>
 
             <!-- Location Information -->
             <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Location</h2>
+                <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">{{ _('Location') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Country</label>
-                        <p class="mt-1 text-gray-900">{{ user.country }}</p>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Country') }}</label>
+                        <p class="mt-1 text-gray-900">{{ user.country or _('Not specified') }}</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">City</label>
-                        <p class="mt-1 text-gray-900">{{ user.city }}</p>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('City') }}</label>
+                        <p class="mt-1 text-gray-900">{{ user.city or _('Not specified') }}</p>
                     </div>
                     {% if user.address %}
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-500">Address</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Address') }}</label>
                         <p class="mt-1 text-gray-900">{{ user.address }}</p>
                     </div>
                     {% endif %}
@@ -143,30 +142,29 @@
 
             <!-- Account Information -->
             <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Account Information
-                </h2>
+                <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">{{ _('Account Information') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Account Type</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Account Type') }}</label>
                         <span
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-1">
-                            {{ user.account_type.title() }}
+                            {{ _(user.account_type.title()) }}
                         </span>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Status</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Status') }}</label>
                         <span
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {% if user.account_status == 'active' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} mt-1">
-                            {{ user.account_status.title() }}
+                            {{ _(user.account_status.title()) }}
                         </span>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Member Since</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Member Since') }}</label>
                         <p class="mt-1 text-gray-900">{{ user.created_at.strftime('%B %d, %Y') }}</p>
                     </div>
                     {% if user.last_login %}
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Last Login</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Last Login') }}</label>
                         <p class="mt-1 text-gray-900">{{ user.last_login.strftime('%B %d, %Y at %I:%M %p') }}</p>
                     </div>
                     {% endif %}
@@ -176,31 +174,30 @@
             {% if user.is_business_user %}
             <!-- Business Information -->
             <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Business Information
-                </h2>
+                <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">{{ _('Business Information') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {% if user.business_name %}
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Business Name</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Business Name') }}</label>
                         <p class="mt-1 text-gray-900">{{ user.business_name }}</p>
                     </div>
                     {% endif %}
                     {% if user.business_type %}
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Business Type</label>
-                        <p class="mt-1 text-gray-900">{{ user.business_type.replace('_', ' ').title() }}</p>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Business Type') }}</label>
+                        <p class="mt-1 text-gray-900">{{ _(user.business_type.replace('_', ' ').title()) }}</p>
                     </div>
                     {% endif %}
                     {% if user.website_url %}
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-500">Website</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Website') }}</label>
                         <a href="{{ user.website_url }}" target="_blank"
                             class="mt-1 text-blue-600 hover:text-blue-800">{{ user.website_url }}</a>
                     </div>
                     {% endif %}
                     {% if user.business_description %}
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-500">Description</label>
+                        <label class="block text-sm font-medium text-gray-500">{{ _('Description') }}</label>
                         <p class="mt-1 text-gray-900">{{ user.business_description }}</p>
                     </div>
                     {% endif %}
@@ -210,19 +207,18 @@
 
             <!-- Roles & Permissions -->
             <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Roles & Permissions
-                </h2>
+                <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">{{ _('Roles & Permissions') }}</h2>
                 <div>
-                    <label class="block text-sm font-medium text-gray-500 mb-2">Assigned Roles</label>
+                    <label class="block text-sm font-medium text-gray-500 mb-2">{{ _('Assigned Roles') }}</label>
                     <div class="flex flex-wrap gap-2">
                         {% for role in user.roles %}
                         <span
                             class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
                             <i class="fas fa-shield-alt mr-1"></i>
-                            {{ role.name }}
+                            {{ _(role.name) }}
                         </span>
                         {% else %}
-                        <span class="text-gray-500 italic">No roles assigned</span>
+                        <span class="text-gray-500 italic">{{ _('No roles assigned') }}</span>
                         {% endfor %}
                     </div>
                 </div>
@@ -234,9 +230,9 @@
 {% block scripts %}
 <script>
     function toggleUserStatus(userId, newStatus) {
-        if (confirm(`Are you sure you want to ${newStatus === 'active' ? 'activate' : 'deactivate'} this user?`)) {
+        if (confirm(`{{ _('Are you sure you want to {action} this user?').format(action=newStatus === 'active' ? _('activate') : _('deactivate')) }}`)) {
             // In a real implementation, this would make an AJAX call to update the user status
-            alert('This feature would be implemented with AJAX calls to update user status.');
+            alert('{{ _("This feature would be implemented with AJAX calls to update user status.") }}');
             // Example AJAX implementation:
             // fetch(`/admin/users/${userId}/toggle-status`, {
             //     method: 'POST',
@@ -250,7 +246,7 @@
             //       if (data.success) {
             //           location.reload();
             //       } else {
-            //           alert('Error updating user status: ' + data.message);
+            //           alert('{{ _("Error updating user status: ") }}' + data.message);
             //       }
             //   });
         }

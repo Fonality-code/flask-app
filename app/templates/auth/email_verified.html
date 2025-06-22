@@ -1,6 +1,6 @@
 {% extends "layouts/app.html" %}
 
-{% block title %}Email Verified - Web App{% endblock %}
+{% block title %}{{ _('Email Verified - Web App') }}{% endblock %}
 
 {% block page_content %}
 <div
@@ -16,12 +16,11 @@
 
             <!-- Success Message -->
             <h1 class="text-2xl font-bold text-slate-900 mb-4">
-                Email Verified Successfully! 🎉
+                {{ _('Email Verified Successfully! 🎉') }}
             </h1>
 
             <p class="text-slate-600 mb-6">
-                Your email address has been verified. You now have full access to all features and can start using your
-                account.
+                {{ _('Your email address has been verified. You now have full access to all features and can start using your account.') }}
             </p>
 
             <!-- Success Details -->
@@ -35,7 +34,7 @@
                             {{ current_user.email }}
                         </p>
                         <p class="text-xs text-success-600">
-                            Verified on {{ moment().format('MMMM Do, YYYY [at] h:mm A') }}
+                            {{ _('Verified on') }} {{ moment().format('MMMM Do, YYYY [at] h:mm A') }}
                         </p>
                     </div>
                 </div>
@@ -46,31 +45,31 @@
                 <a href="{{ url_for('auth.profile') }}"
                     class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-primary-600 to-accent-600 hover:from-primary-700 hover:to-accent-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
                     <i class="fas fa-user mr-2"></i>
-                    View Profile
+                    {{ _('View Profile') }}
                 </a>
 
                 <a href="{{ url_for('main.index') }}"
                     class="w-full flex justify-center py-3 px-4 border border-slate-300 rounded-lg shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
                     <i class="fas fa-home mr-2"></i>
-                    Go to Dashboard
+                    {{ _('Go to Dashboard') }}
                 </a>
             </div>
 
             <!-- Additional Benefits -->
             <div class="mt-8 text-left">
-                <h3 class="text-sm font-semibold text-slate-900 mb-3">What's Next?</h3>
+                <h3 class="text-sm font-semibold text-slate-900 mb-3">{{ _("What's Next?") }}</h3>
                 <ul class="text-sm text-slate-600 space-y-2">
                     <li class="flex items-center">
                         <i class="fas fa-check-circle text-success-500 mr-2 text-xs"></i>
-                        Complete your profile information
+                        {{ _('Complete your profile information') }}
                     </li>
                     <li class="flex items-center">
                         <i class="fas fa-check-circle text-success-500 mr-2 text-xs"></i>
-                        Explore all available features
+                        {{ _('Explore all available features') }}
                     </li>
                     <li class="flex items-center">
                         <i class="fas fa-check-circle text-success-500 mr-2 text-xs"></i>
-                        Connect with other users
+                        {{ _('Connect with other users') }}
                     </li>
                 </ul>
             </div>
@@ -79,8 +78,8 @@
         <!-- Footer -->
         <div class="text-center">
             <p class="text-sm text-slate-500">
-                Need help? <a href="mailto:{{ config.MAIL_DEFAULT_SENDER }}"
-                    class="text-primary-600 hover:text-primary-500">Contact Support</a>
+                {{ _('Need help?') }} <a href="mailto:{{ config.MAIL_DEFAULT_SENDER }}"
+                    class="text-primary-600 hover:text-primary-500">{{ _('Contact Support') }}</a>
             </p>
         </div>
     </div>
