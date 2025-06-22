@@ -35,7 +35,7 @@ TAG="1.0"
 PUSH_IMAGE=false
 REGISTRY="ghcr.io"
 REPO_NAME=$(basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
-GITHUB_USERNAME="pantamak"
+GITHUB_USERNAME="fonality-code"
 APP_NAME="app"  # Generic name for the single app
 
 # Parse command line arguments
